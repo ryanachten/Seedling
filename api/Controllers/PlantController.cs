@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
 using api.Data;
+using api.Models;
+using api.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -9,18 +10,34 @@ namespace api.Controllers
     [Route("[controller]")]
     public class PlantController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ISeedRepository _repo;
 
-        public PlantController(DataContext context)
+        public PlantController(ISeedRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetValues()
+        public async Task<IActionResult> GetPlants()
         {
-            var plants = await _context.Plants.ToListAsync();
+            var plants = await _repo.GetPlants();
             return Ok(plants);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPlantById(int id)
+        {
+            var plant = await _repo.GetPlant(id);
+            return Ok(plant);
+        }
+
+        [HttpPost]
+        public IActionResult CreatePlant([FromForm] PlantForCreate plantToCreate)
+        {
+            var plant = new Plant { Name = plantToCreate.Name };
+            _repo.Add(plant);
+            _repo.SaveAll();
+            return Ok(plant);
         }
     }
 }
