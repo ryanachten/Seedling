@@ -3,7 +3,13 @@
 ## API
 ### Installation
 - Install Docker desktop. We use Linux containers for this repository.
+- Install .NET CLI `v5.0.0`
+- Install Entity Framework CLI tools `dotnet tool install --global dotnet-ef --version 5.0.0`
+- Run `dotnet ef database update` to create/update local Sqlite DB
 
+### Running .NET
+- Run `dotnet watch run` from the `/api` directory
+- Create EF migrations via `dotnet ef migrations add <NAME>`
 ### Running Docker container
 - Pull image from Hub - `docker pull ryanachten/seedling`
 - Run container (HTTP) - `docker run --rm -it -p 8000:80 ryanachten/seedling`
