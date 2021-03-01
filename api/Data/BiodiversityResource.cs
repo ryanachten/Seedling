@@ -20,7 +20,10 @@ namespace api.Data
             var response = await _client.SendAsync(request);
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<SearchResult>(responseStream);
+            return await JsonSerializer.DeserializeAsync<SearchResult>(responseStream, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
         }
     }
 }
