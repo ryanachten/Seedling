@@ -41,11 +41,11 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePlant([FromForm] PlantForCreate plantToCreate)
+        public async Task<IActionResult> CreatePlant([FromForm] PlantForCreate plantToCreate)
         {
             var plant = new Plant { Name = plantToCreate.Name };
-            _repo.Add(plant);
-            _repo.SaveAll();
+            await _repo.Add(plant);
+            await _repo.SaveAll();
             return Ok(plant);
         }
     }
