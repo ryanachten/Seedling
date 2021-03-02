@@ -23,7 +23,7 @@ namespace Seedling
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(
-                x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+                x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
             );
             services.AddControllers().AddNewtonsoftJson(opts =>
             {

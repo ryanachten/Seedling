@@ -3,6 +3,7 @@
 ## API
 ### Installation
 - Install Docker desktop. We use Linux containers for this repository.
+- Run postgres Docker container `docker run --name seedling-dev -e POSTGRES_USER=USER_NAME -e POSTGRES_PASSWORD=PASSWORD -d -p 5432:5432 postgres:latest`
 - Install .NET CLI `v5.0.0`
 - Install Entity Framework CLI tools `dotnet tool install --global dotnet-ef --version 5.0.0`
 - Run `dotnet ef database update` to create/update local Sqlite DB
