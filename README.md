@@ -10,6 +10,7 @@
 ### Running .NET
 - Run `dotnet watch run` from the `/api` directory
 - Create EF migrations via `dotnet ef migrations add <NAME>`
+- Update database via `dotnet ef database update`
 ### Running Docker container
 - Pull image from Hub - `docker pull ryanachten/seedling`
 - Run container (HTTP) - `docker run --rm -it -p 8000:80 ryanachten/seedling`

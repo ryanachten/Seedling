@@ -11,10 +11,12 @@ namespace api.Controllers
     public class PlantController : ControllerBase
     {
         private readonly ISeedRepository _repo;
+        private readonly IBiodiversityResource _bioResource;
 
-        public PlantController(ISeedRepository repo)
+        public PlantController(ISeedRepository repo, IBiodiversityResource bioResource)
         {
             _repo = repo;
+            _bioResource = bioResource;
         }
 
         [HttpGet]
@@ -28,7 +30,14 @@ namespace api.Controllers
         public async Task<IActionResult> GetPlantById(int id)
         {
             var plant = await _repo.GetPlant(id);
-            return Ok(plant);
+            var species = await _bioResource.GetSpeciesByKey(plant.BiodiversityResourceKey);
+            var plantToReturn = new PlantForDetail
+            {
+                Id = plant.Id,
+                Name = plant.Name,
+                BiodiversityRecord = species,
+            };
+            return Ok(plantToReturn);
         }
 
         [HttpPost]

@@ -37,6 +37,7 @@ namespace Seedling
             services.AddHttpClient("gbif", c =>
             {
                 c.BaseAddress = new Uri("https://api.gbif.org/v1/");
+                c.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
             });
             services.AddScoped<ISeedRepository, SeedRepository>();
             services.AddScoped<IBiodiversityResource, BiodiversityResource>();

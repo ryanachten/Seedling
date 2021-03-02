@@ -5,6 +5,7 @@ namespace api.Data
 {
     public interface IBiodiversityResource
     {
-        Task<SearchResult> Search(string term);
+        Task<SearchResult> SearchSpecies(string term);
+        Task<Species> GetSpeciesByKey(int key);
     }
 }
