@@ -2,9 +2,6 @@
 IMAGE_NAME=ryanachten/seedling
 APP_NAME=seedling-app-api
 
-# printf "\n*** Publishing .NET project ***"
-# dotnet publish -c Release 
-
 printf "\n*** Building and tagging Docker image $IMAGE_NAME ***\n"
 docker build -t $IMAGE_NAME -f DockerFile .
 docker tag $IMAGE_NAME registry.heroku.com/$APP_NAME/web
@@ -18,5 +15,5 @@ dotnet ef migrations script -o migration.sql --idempotent
 heroku pg:psql --app seedling-app-api < migration.sql 
 
 printf "\n*** Opening app $APP_NAME ***\n"
-heroku open --app=$APP_NAME
+heroku open --app=$APP_NAME /plant
 heroku logs --tail --app=$APP_NAME
