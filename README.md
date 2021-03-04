@@ -6,12 +6,13 @@
 - Run postgres Docker container `docker run --name seedling-dev -e POSTGRES_USER=USER_NAME -e POSTGRES_PASSWORD=PASSWORD -d -p 5432:5432 postgres:latest`
 - Install .NET CLI `v5.0.0`
 - Install Entity Framework CLI tools `dotnet tool install --global dotnet-ef --version 5.0.0`
-- Run `dotnet ef database update` to create/update local Sqlite DB
+- Run `dotnet ef database update` to create/update local Psql DB
 
 ### Running .NET
 - Run `dotnet watch run` from the `/api` directory
 - Create EF migrations via `dotnet ef migrations add <NAME>`
 - Update database via `dotnet ef database update`
+
 ### Running Docker container
 - Pull image from Hub - `docker pull ryanachten/seedling`
 - Run container (HTTP) - `docker run --rm -it -p 8000:80 ryanachten/seedling`
@@ -21,3 +22,10 @@
   - Be sure to replace `YOUR PASSWORD` with you administrator password
   - To prevent having to copy this command, we store this in a `start.sh` file (omitted from source control)
   - See [here](https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-5.0) for further information (such as Windows run guide)
+
+### Deploying to Heroku
+- Ensure the following are installed on local environment
+  - `psql` - Postgress cmd line tools
+  - `heroku` - Heroku cmd line tools
+    - Login into Heroku via Heroku cmd line
+- Run `./deploy.sh` to build image, release container and open dpeloyed Heroku app
