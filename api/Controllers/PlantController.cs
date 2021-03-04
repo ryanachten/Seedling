@@ -48,5 +48,14 @@ namespace api.Controllers
             await _repo.SaveAll();
             return Ok(plant);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemovePlant(int id)
+        {
+            Plant plant = await _repo.GetPlant(id);
+            _repo.Delete(plant);
+            await _repo.SaveAll();
+            return Ok(plant);
+        }
     }
 }
