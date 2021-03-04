@@ -22,8 +22,8 @@ namespace Seedling
                     }
                     else
                     {
-                        // In production, we want to use Heroku's PORT
-                        // and let Heroku hadnle HTTPS redirection (hence only use HTTP in .NET)
+                        // In production, we want to use Heroku's PORT exposed via env variable
+                        // and let Heroku handle HTTPS redirection (hence only use .NET HTTP in PROD)
                         var port = Environment.GetEnvironmentVariable("PORT");
                         webBuilder.UseStartup<Startup>().UseUrls("http://*:" + port);
                     }
