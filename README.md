@@ -28,4 +28,8 @@
   - `psql` - Postgress cmd line tools
   - `heroku` - Heroku cmd line tools
     - Login into Heroku via Heroku cmd line
-- Run `./deploy.sh` to build image, release container and open dpeloyed Heroku app
+- Run `./deploy.sh`. This will do the following
+  - Build and tag Docker image
+  - Push image to Heroku container registry before releasing it
+  - Produce EF migration SQL script and run it against Heroku Postgres to ensure schema is up to date
+  - Open dpeloyed Heroku app with logs
