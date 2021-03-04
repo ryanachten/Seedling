@@ -1,4 +1,4 @@
-# Heroku and cotainer registery varaibles
+# Heroku and container registry varaibles
 IMAGE_NAME=ryanachten/seedling
 APP_NAME=seedling-app-api
 
