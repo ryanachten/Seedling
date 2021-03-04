@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Models;
 using api.Models.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -12,11 +13,13 @@ namespace api.Controllers
     {
         private readonly ISeedRepository _repo;
         private readonly IBiodiversityResource _bioResource;
+        private readonly IMapper _mapper;
 
-        public PlantController(ISeedRepository repo, IBiodiversityResource bioResource)
+        public PlantController(ISeedRepository repo, IBiodiversityResource bioResource, IMapper mapper)
         {
             _repo = repo;
             _bioResource = bioResource;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -31,19 +34,17 @@ namespace api.Controllers
         {
             var plant = await _repo.GetPlant(id);
             var species = await _bioResource.GetSpeciesByKey(plant.BiodiversityResourceKey);
-            var plantToReturn = new PlantForDetail
-            {
-                Id = plant.Id,
-                Name = plant.Name,
-                BiodiversityRecord = species,
-            };
+
+            var plantToReturn = _mapper.Map<PlantForDetail>(plant);
+            plantToReturn.BiodiversityRecord = species;
+
             return Ok(plantToReturn);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePlant([FromForm] PlantForCreate plantToCreate)
         {
-            var plant = new Plant { Name = plantToCreate.Name };
+            var plant = _mapper.Map<Plant>(plantToCreate);
             await _repo.Add(plant);
             await _repo.SaveAll();
             return Ok(plant);
