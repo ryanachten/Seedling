@@ -14,6 +14,7 @@ printf "\n*** Releasing container ***\n"
 heroku container:release web --app=$APP_NAME
 
 printf "\n*** Deploying latest EF migration to Postgres ***\n"
+dotnet ef migrations script -o migration.sql --idempotent
 heroku pg:psql --app seedling-app-api < migration.sql 
 
 printf "\n*** Opening app $APP_NAME ***\n"

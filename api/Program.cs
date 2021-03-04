@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Seedling
 {
@@ -20,8 +15,19 @@ namespace Seedling
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var port = Environment.GetEnvironmentVariable("PORT");
-                    webBuilder.UseStartup<Startup>().UseUrls("http://*:" + port);
+                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                    if (env == "Development")
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    }
+                    else
+                    {
+                        // In production, we want to use Heroku's PORT
+                        // and let Heroku hadnle HTTPS redirection (hence only use HTTP in .NET)
+                        var port = Environment.GetEnvironmentVariable("PORT");
+                        webBuilder.UseStartup<Startup>().UseUrls("http://*:" + port);
+                    }
+
                 });
     }
 }
