@@ -10,6 +10,8 @@ namespace api.Helpers
         {
             CreateMap<PlantForCreate, Plant>();
             CreateMap<Plant, PlantForDetail>();
+            CreateMap<UserForRegister, User>();
+            CreateMap<User, UserForDetail>();
         }
     }
 }
