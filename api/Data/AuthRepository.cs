@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using api.Models;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace api.Data
 {
@@ -63,6 +68,29 @@ namespace api.Data
         public async Task<bool> UserExists(string email)
         {
             return await _context.Users.AnyAsync(u => u.Email == email);
+        }
+
+        public string CreateJwtToken(User user)
+        {
+            var claims = new[]{
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("TOKENKEY")));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddYears(1),
+                SigningCredentials = creds
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

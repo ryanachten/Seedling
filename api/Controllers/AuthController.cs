@@ -1,9 +1,13 @@
+using System;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
 using api.Models.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
@@ -43,9 +47,15 @@ namespace api.Controllers
             if (user == null)
                 return Unauthorized();
 
+            var token = _repo.CreateJwtToken(user);
+
             var userToReturn = _mapper.Map<UserForDetail>(user);
 
-            return Ok(userToReturn);
+            return Ok(new
+            {
+                user = userToReturn,
+                token
+            });
         }
     }
 }
