@@ -8,6 +8,6 @@ namespace api.Models.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public ICollection<Plant> Plants { get; set; }
+        public ICollection<PlantForList> Plants { get; set; }
     }
 }

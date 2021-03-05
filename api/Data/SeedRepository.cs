@@ -38,7 +38,7 @@ namespace api.Data
 
         public Task<User> GetUser(int id)
         {
-            return _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return _context.Users.Include(u => u.Plants).FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<bool> SaveAll()
