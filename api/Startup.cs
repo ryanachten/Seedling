@@ -74,6 +74,7 @@ namespace Seedling
                 c.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
             });
             services.AddScoped<ISeedRepository, SeedRepository>();
+            services.AddScoped<IAuthrepository, AuthRepository>();
             services.AddScoped<IBiodiversityResource, BiodiversityResource>();
             services.AddAutoMapper(typeof(SeedRepository).Assembly);
 
