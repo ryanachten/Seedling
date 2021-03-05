@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using api.Data;
@@ -29,14 +30,20 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlants()
         {
-            var plants = await _repo.GetPlants();
-            return Ok(plants);
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var plants = await _repo.GetPlants(Int32.Parse(userId));
+            var plantsToReturn = _mapper.Map<List<PlantForList>>(plants);
+            return Ok(plantsToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlantById(int id)
         {
             var plant = await _repo.GetPlant(id);
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (Int32.Parse(userId) != plant.User.Id)
+                return Unauthorized();
+
             var species = await _bioResource.GetSpeciesByKey(plant.BiodiversityResourceKey);
 
             var plantToReturn = _mapper.Map<PlantForDetail>(plant);

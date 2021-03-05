@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,12 +28,12 @@ namespace api.Data
 
         public Task<Plant> GetPlant(int id)
         {
-            return _context.Plants.FirstOrDefaultAsync(p => p.Id == id);
+            return _context.Plants.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<List<Plant>> GetPlants()
+        public Task<List<Plant>> GetPlants(int userId)
         {
-            return _context.Plants.ToListAsync();
+            return _context.Plants.Where(p => p.User.Id == userId).ToListAsync();
         }
 
         public Task<User> GetUser(int id)

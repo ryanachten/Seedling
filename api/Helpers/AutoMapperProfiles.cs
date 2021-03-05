@@ -9,6 +9,7 @@ namespace api.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<PlantForCreate, Plant>();
+            CreateMap<Plant, PlantForList>();
             CreateMap<Plant, PlantForDetail>();
             CreateMap<UserForRegister, User>();
             CreateMap<User, UserForDetail>();

@@ -10,7 +10,7 @@ namespace api.Data
         ValueTask<EntityEntry<T>> Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        Task<List<Plant>> GetPlants();
+        Task<List<Plant>> GetPlants(int userId);
         Task<Plant> GetPlant(int id);
         Task<User> GetUser(int id);
     }
