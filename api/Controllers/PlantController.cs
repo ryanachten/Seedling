@@ -57,9 +57,14 @@ namespace api.Controllers
                 return Unauthorized();
 
             var plant = _mapper.Map<Plant>(plantToCreate);
+            plant.User = user;
             await _repo.Add(plant);
             await _repo.SaveAll();
-            return Ok(plant);
+
+            var species = await _bioResource.GetSpeciesByKey(plant.BiodiversityResourceKey);
+            var plantToReturn = _mapper.Map<PlantForDetail>(plant);
+            plantToReturn.BiodiversityRecord = species;
+            return Ok(plantToReturn);
         }
 
         [HttpDelete("{id}")]
