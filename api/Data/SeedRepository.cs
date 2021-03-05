@@ -35,6 +35,11 @@ namespace api.Data
             return _context.Plants.ToListAsync();
         }
 
+        public Task<User> GetUser(int id)
+        {
+            return _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;

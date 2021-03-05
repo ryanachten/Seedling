@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace api.Models.DTOs
 {
     public class UserForDetail
@@ -6,5 +8,6 @@ namespace api.Models.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public ICollection<Plant> Plants { get; set; }
     }
 }

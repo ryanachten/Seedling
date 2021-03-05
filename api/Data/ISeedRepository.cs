@@ -12,5 +12,6 @@ namespace api.Data
         Task<bool> SaveAll();
         Task<List<Plant>> GetPlants();
         Task<Plant> GetPlant(int id);
+        Task<User> GetUser(int id);
     }
 }

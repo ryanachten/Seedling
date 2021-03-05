@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Seedling
 {
@@ -34,15 +37,30 @@ namespace Seedling
                 opts.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TOKENKEY"))),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Seedling", Version = "v1" });
             });
+
             services.AddHttpClient("gbif", c =>
             {
                 c.BaseAddress = new Uri("https://api.gbif.org/v1/");
                 c.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
             });
+
             services.AddScoped<ISeedRepository, SeedRepository>();
             services.AddScoped<IAuthrepository, AuthRepository>();
             services.AddScoped<IBiodiversityResource, BiodiversityResource>();
@@ -62,6 +80,7 @@ namespace Seedling
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

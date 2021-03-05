@@ -1,12 +1,16 @@
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
 using api.Models.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class PlantController : ControllerBase
@@ -44,6 +48,14 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePlant([FromForm] PlantForCreate plantToCreate)
         {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (Int32.Parse(userId) != plantToCreate.UserId)
+                return Unauthorized();
+
+            var user = await _repo.GetUser(plantToCreate.UserId);
+            if (user == null)
+                return Unauthorized();
+
             var plant = _mapper.Map<Plant>(plantToCreate);
             await _repo.Add(plant);
             await _repo.SaveAll();

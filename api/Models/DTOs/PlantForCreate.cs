@@ -4,5 +4,6 @@ namespace api.Models.DTOs
     {
         public string Name { get; set; }
         public int BiodiversityResourceKey { get; set; }
+        public int UserId { get; set; }
     }
 }
