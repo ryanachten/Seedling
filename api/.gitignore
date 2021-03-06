@@ -6,3 +6,4 @@ obj/*
 start.sh
 *.db*
 migration.sql
+startup.sh

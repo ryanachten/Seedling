@@ -9,7 +9,8 @@
 - Run `dotnet ef database update` to create/update local Psql DB
 
 ### Running .NET
-- Run `dotnet watch run` from the `/api` directory
+- Run `TOKENKEY=SECURE_TOKEN dotnet watch run` from the `/api` directory
+  - We store this in a `startup.sh` file for simplicity (omitted from version control)
 - Create EF migrations via `dotnet ef migrations add <NAME>`
 - Update database via `dotnet ef database update`
 
