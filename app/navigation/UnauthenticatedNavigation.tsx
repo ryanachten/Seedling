@@ -1,6 +1,6 @@
-import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Icon } from "@ui-kitten/components";
 import * as React from "react";
 
 import Colors from "../constants/Colors";
@@ -27,8 +27,15 @@ export default function BottomTabNavigator() {
         name="Login"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              style={{
+                width: size,
+                height: size,
+              }}
+              name="person-outline"
+              fill={color}
+            />
           ),
         }}
       />
@@ -36,20 +43,20 @@ export default function BottomTabNavigator() {
         name="Register"
         component={TabTwoNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              style={{
+                width: size,
+                height: size,
+              }}
+              name="edit-outline"
+              fill={color}
+            />
           ),
         }}
       />
     </BottomTab.Navigator>
   );
-}
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>["name"];
-  color: string;
-}) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 const LoginStack = createStackNavigator<LoginParamList>();
