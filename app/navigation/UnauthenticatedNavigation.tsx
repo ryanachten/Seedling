@@ -5,7 +5,7 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import TabOneScreen from "../screens/TabOneScreen";
+import LoginScreen from "../screens/LoginScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import {
   UnauthenticatedParamList,
@@ -66,7 +66,7 @@ function TabOneNavigator() {
     <LoginStack.Navigator>
       <LoginStack.Screen
         name="LoginScreen"
-        component={TabOneScreen}
+        component={LoginScreen}
         options={{ headerTitle: "Sign in!" }}
       />
     </LoginStack.Navigator>
