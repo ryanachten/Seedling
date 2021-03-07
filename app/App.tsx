@@ -8,6 +8,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { SEEDLING_EVA_THEME } from "./constants/Theme";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -19,7 +20,10 @@ export default function App() {
     return (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.light}>
+        <ApplicationProvider
+          {...eva}
+          theme={{ ...eva.light, ...SEEDLING_EVA_THEME }}
+        >
           <SafeAreaProvider>
             <Navigation colorScheme={colorScheme} />
             <StatusBar />

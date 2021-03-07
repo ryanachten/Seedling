@@ -1,10 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Icon } from "@ui-kitten/components";
+import { Icon, useTheme } from "@ui-kitten/components";
 import * as React from "react";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import LoginScreen from "../screens/LoginScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import {
@@ -16,12 +14,11 @@ import {
 const BottomTab = createBottomTabNavigator<UnauthenticatedParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
+  const theme = useTheme();
   return (
     <BottomTab.Navigator
       initialRouteName="Login"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{ activeTintColor: theme["color-primary-default"] }}
     >
       <BottomTab.Screen
         name="Login"
