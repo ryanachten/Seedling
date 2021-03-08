@@ -22,7 +22,7 @@ export default function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Login"
-        component={TabOneNavigator}
+        component={LoginNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon
@@ -38,7 +38,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Register"
-        component={TabTwoNavigator}
+        component={RegisterNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon
@@ -58,7 +58,7 @@ export default function BottomTabNavigator() {
 
 const LoginStack = createStackNavigator<LoginParamList>();
 
-function TabOneNavigator() {
+function LoginNavigator() {
   return (
     <LoginStack.Navigator>
       <LoginStack.Screen
@@ -72,7 +72,7 @@ function TabOneNavigator() {
 
 const RegisterStack = createStackNavigator<RegisterParamList>();
 
-function TabTwoNavigator() {
+function RegisterNavigator() {
   return (
     <RegisterStack.Navigator>
       <RegisterStack.Screen

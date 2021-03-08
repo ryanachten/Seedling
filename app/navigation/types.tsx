@@ -15,3 +15,11 @@ export type LoginParamList = {
 export type RegisterParamList = {
   RegisterScreen: undefined;
 };
+
+export type AuthenticatedParamList = {
+  Home: undefined;
+};
+
+export type HomeParamList = {
+  HomeScreen: undefined;
+};
