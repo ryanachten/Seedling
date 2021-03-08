@@ -4,7 +4,7 @@ import { Icon, useTheme } from "@ui-kitten/components";
 import * as React from "react";
 
 import LoginScreen from "../screens/LoginScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 import {
   UnauthenticatedParamList,
   LoginParamList,
@@ -77,7 +77,7 @@ function TabTwoNavigator() {
     <RegisterStack.Navigator>
       <RegisterStack.Screen
         name="RegisterScreen"
-        component={TabTwoScreen}
+        component={RegisterScreen}
         options={{ headerTitle: "Sign up!" }}
       />
     </RegisterStack.Navigator>
