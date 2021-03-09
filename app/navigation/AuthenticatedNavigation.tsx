@@ -8,7 +8,7 @@ import { AuthenticatedParamList, HomeParamList } from "./types";
 
 const BottomTab = createBottomTabNavigator<AuthenticatedParamList>();
 
-export default function BottomTabNavigator() {
+export default function AuthenticatedNavigator() {
   const theme = useTheme();
   return (
     <BottomTab.Navigator

@@ -87,6 +87,8 @@ export const authActions = (
       await AsyncStorage.setItem(StorageKeys.User, JSON.stringify(userDetails));
       userDispatch({ type: userTypes.LOGIN_USER, user: userDetails });
     } catch (error) {
+      console.log("error", error);
+
       dispatch({ type: baseTypes.ERROR, error: error.message });
     }
   },

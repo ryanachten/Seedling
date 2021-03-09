@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input } from "@ui-kitten/components";
+import { Button, Input } from "@ui-kitten/components";
+import { AuthContext } from "../services/context";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ryantest@305.com");
+  const [password, setPassword] = useState("Password1");
+  const {
+    state: { loading, error },
+    actions: { signIn },
+  } = useContext(AuthContext);
+
+  const loginUser = () => signIn(email, password);
+  console.log(loading, error);
+
   return (
     <View style={styles.container}>
       <Input
@@ -21,6 +30,7 @@ export default function LoginScreen() {
         secureTextEntry={true}
         onChange={(e) => setPassword(e.nativeEvent.text)}
       />
+      <Button onPress={loginUser}>Sign in!</Button>
     </View>
   );
 }

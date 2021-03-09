@@ -13,7 +13,7 @@ import {
 
 const BottomTab = createBottomTabNavigator<UnauthenticatedParamList>();
 
-export default function BottomTabNavigator() {
+export default function UnauthenticatedNavigator() {
   const theme = useTheme();
   return (
     <BottomTab.Navigator
