@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input } from "@ui-kitten/components";
+import { Button, Input } from "@ui-kitten/components";
+import { AuthContext } from "../services/context";
 
 export default function TabTwoScreen() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {
+    actions: { signUp },
+  } = useContext(AuthContext);
+
+  const registerUser = () =>
+    signUp({
+      firstName,
+      lastName,
+      password,
+      email,
+    });
   return (
     <View style={styles.container}>
       <Input
@@ -35,6 +47,7 @@ export default function TabTwoScreen() {
         secureTextEntry={true}
         onChange={(e) => setPassword(e.nativeEvent.text)}
       />
+      <Button onPress={registerUser}>Sign up!</Button>
     </View>
   );
 }
