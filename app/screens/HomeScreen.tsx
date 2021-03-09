@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text } from "@ui-kitten/components";
+import { Button, Text } from "@ui-kitten/components";
+import { AuthContext } from "../services/context";
 
 export default function HomeScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    actions: { signOut },
+  } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <Text category="h1">Home!</Text>
+      <Button onPress={() => signOut()}>Log out</Button>
     </View>
   );
 }

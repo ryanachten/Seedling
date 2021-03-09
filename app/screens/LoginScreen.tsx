@@ -5,8 +5,8 @@ import { AuthContext } from "../services/context";
 import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("ryantest@305.com");
-  const [password, setPassword] = useState("Password1");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const {
     state: { loading, error },
     actions: { signIn },
