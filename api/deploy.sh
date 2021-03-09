@@ -15,5 +15,4 @@ dotnet ef migrations script -o migration.sql --idempotent
 heroku pg:psql --app seedling-app-api < migration.sql 
 
 printf "\n*** Opening app $APP_NAME ***\n"
-heroku open --app=$APP_NAME /plant
 heroku logs --tail --app=$APP_NAME
