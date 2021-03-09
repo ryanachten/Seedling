@@ -25,7 +25,7 @@ namespace api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] UserForRegister userToRegister)
+        public async Task<IActionResult> Register(UserForRegister userToRegister)
         {
             userToRegister.Email = userToRegister.Email.ToLower();
             if (await _repo.UserExists(userToRegister.Email))
@@ -41,7 +41,7 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm] UserForLogin userToLogin)
+        public async Task<IActionResult> Login(UserForLogin userToLogin)
         {
             var user = await _repo.LoginUser(userToLogin.Email.ToLower(), userToLogin.Password);
             if (user == null)
