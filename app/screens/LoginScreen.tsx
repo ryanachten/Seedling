@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Input } from "@ui-kitten/components";
 import { AuthContext } from "../services/context";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("ryantest@305.com");
@@ -10,9 +11,11 @@ export default function LoginScreen() {
     state: { loading, error },
     actions: { signIn },
   } = useContext(AuthContext);
+  const nav = useNavigation();
 
-  const loginUser = () => signIn(email, password);
-  console.log(loading, error);
+  const loginUser = () => {
+    signIn(email, password);
+  };
 
   return (
     <View style={styles.container}>

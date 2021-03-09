@@ -34,6 +34,7 @@ function RootNavigator() {
   const {
     state: { token },
   } = useContext(AuthContext);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {token ? (

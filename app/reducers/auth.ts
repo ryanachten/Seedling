@@ -71,12 +71,12 @@ export const authActions = (
         data,
       }: AxiosResponse<{
         token: string;
-        userDetails: User;
+        user: User;
       }> = await Axios.post(LOGIN_URL, {
         email,
         password,
       });
-      const { token, userDetails } = data;
+      const { token, user } = data;
 
       // Dispatch and serialise token
       await AsyncStorage.setItem(StorageKeys.Token, token);
@@ -84,11 +84,9 @@ export const authActions = (
       dispatch({ type: authTypes.SIGN_IN, token });
 
       // Dispatch and serialise user
-      await AsyncStorage.setItem(StorageKeys.User, JSON.stringify(userDetails));
-      userDispatch({ type: userTypes.LOGIN_USER, user: userDetails });
+      await AsyncStorage.setItem(StorageKeys.User, JSON.stringify(user));
+      userDispatch({ type: userTypes.LOGIN_USER, user });
     } catch (error) {
-      console.log("error", error);
-
       dispatch({ type: baseTypes.ERROR, error: error.message });
     }
   },
