@@ -32,8 +32,11 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const {
+    actions: { restoreToken },
     state: { token },
   } = useContext(AuthContext);
+
+  restoreToken();
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

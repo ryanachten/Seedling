@@ -1,13 +1,9 @@
-using System;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
 using api.Models.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
