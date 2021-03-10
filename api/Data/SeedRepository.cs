@@ -41,10 +41,5 @@ namespace api.Data
         {
             return _context.Users.Include(u => u.Plants).FirstOrDefaultAsync(u => u.Id == id);
         }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
     }
 }
