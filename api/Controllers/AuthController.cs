@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using api.Data;
+using api.Interfaces;
 using api.Models;
 using api.Models.DTOs;
 using AutoMapper;

@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using api.Data;
+using api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers

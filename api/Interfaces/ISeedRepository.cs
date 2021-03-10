@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using api.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace api.Data
+namespace api.Interfaces
 {
     public interface ISeedRepository
     {
