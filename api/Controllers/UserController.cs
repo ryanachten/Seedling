@@ -27,7 +27,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _unitOfWork.SeedRepo.GetUser(id);
+            var user = await _unitOfWork.UserRepo.GetUser(id);
             if (user.Id != Int32.Parse(userId))
                 return Unauthorized();
 

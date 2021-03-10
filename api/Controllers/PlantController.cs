@@ -31,7 +31,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetPlants()
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var plants = await _unitOfWork.SeedRepo.GetPlants(Int32.Parse(userId));
+            var plants = await _unitOfWork.PlantRepo.GetPlants(Int32.Parse(userId));
             var plantsToReturn = _mapper.Map<List<PlantForList>>(plants);
             return Ok(plantsToReturn);
         }
@@ -39,7 +39,7 @@ namespace api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlantById(int id)
         {
-            var plant = await _unitOfWork.SeedRepo.GetPlant(id);
+            var plant = await _unitOfWork.PlantRepo.GetPlant(id);
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (Int32.Parse(userId) != plant.User.Id)
                 return Unauthorized();
@@ -59,13 +59,13 @@ namespace api.Controllers
             if (Int32.Parse(userId) != plantToCreate.UserId)
                 return Unauthorized();
 
-            var user = await _unitOfWork.SeedRepo.GetUser(plantToCreate.UserId);
+            var user = await _unitOfWork.UserRepo.GetUser(plantToCreate.UserId);
             if (user == null)
                 return Unauthorized();
 
             var plant = _mapper.Map<Plant>(plantToCreate);
             plant.User = user;
-            await _unitOfWork.SeedRepo.Add(plant);
+            await _unitOfWork.PlantRepo.AddPlant(plant);
             await _unitOfWork.Complete();
 
             var species = await _bioResource.GetSpeciesByKey(plant.BiodiversityResourceKey);
@@ -77,8 +77,8 @@ namespace api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemovePlant(int id)
         {
-            Plant plant = await _unitOfWork.SeedRepo.GetPlant(id);
-            _unitOfWork.SeedRepo.Delete(plant);
+            Plant plant = await _unitOfWork.PlantRepo.GetPlant(id);
+            _unitOfWork.PlantRepo.DeletePlant(plant);
             await _unitOfWork.Complete();
             return Ok(plant);
         }

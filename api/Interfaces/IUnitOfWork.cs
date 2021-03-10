@@ -5,7 +5,8 @@ namespace api.Interfaces
     public interface IUnitOfWork
     {
         IAuthrepository AuthRepo { get; }
-        ISeedRepository SeedRepo { get; }
+        IUserRepository UserRepo { get; }
+        IPlantRepository PlantRepo { get; }
         Task<bool> Complete();
         bool HasChanges();
     }

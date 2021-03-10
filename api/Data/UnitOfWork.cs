@@ -16,7 +16,9 @@ namespace api.Data
         }
         public IAuthrepository AuthRepo => new AuthRepository(_context);
 
-        public ISeedRepository SeedRepo => new SeedRepository(_context);
+        public IPlantRepository PlantRepo => new PlantRepository(_context);
+
+        public IUserRepository UserRepo => new UserRepository(_context);
 
         public async Task<bool> Complete()
         {
