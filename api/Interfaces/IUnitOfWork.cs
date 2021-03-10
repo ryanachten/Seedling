@@ -4,9 +4,8 @@ namespace api.Interfaces
 {
     public interface IUnitOfWork
     {
-        IAuthrepository Authrepository { get; }
-        IBiodiversityResource BiodiversityResource { get; }
-        ISeedRepository SeedRepository { get; }
+        IAuthrepository AuthRepo { get; }
+        ISeedRepository SeedRepo { get; }
         Task<bool> Complete();
         bool HasChanges();
     }

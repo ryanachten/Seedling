@@ -63,6 +63,7 @@ namespace Seedling
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBiodiversityResource, BiodiversityResource>();
             services.AddAutoMapper(typeof(SeedRepository).Assembly);
 
         }

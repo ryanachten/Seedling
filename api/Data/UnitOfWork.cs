@@ -14,11 +14,9 @@ namespace api.Data
             _context = context;
             _client = clientFactory;
         }
-        public IAuthrepository Authrepository => new AuthRepository(_context);
+        public IAuthrepository AuthRepo => new AuthRepository(_context);
 
-        public IBiodiversityResource BiodiversityResource => new BiodiversityResource(_client);
-
-        public ISeedRepository SeedRepository => new SeedRepository(_context);
+        public ISeedRepository SeedRepo => new SeedRepository(_context);
 
         public async Task<bool> Complete()
         {

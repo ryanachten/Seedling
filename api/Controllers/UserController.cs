@@ -14,12 +14,12 @@ namespace api.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ISeedRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(ISeedRepository repo, IMapper mapper)
+        public UserController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repo = repo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -27,7 +27,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _repo.GetUser(id);
+            var user = await _unitOfWork.SeedRepo.GetUser(id);
             if (user.Id != Int32.Parse(userId))
                 return Unauthorized();
 
