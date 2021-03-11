@@ -1,23 +1,29 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Text } from "@ui-kitten/components";
-import { AuthContext } from "../services/context";
-import { Background } from "../components";
+import { Modal, Text } from "@ui-kitten/components";
+import { Background, Button, EditPlantForm } from "../components";
+import { ModalBackground } from "../constants/Colors";
 
 export default function PlantScreen() {
-  const {
-    actions: { signOut },
-  } = useContext(AuthContext);
-
+  const [showModal, setShowModal] = useState(false);
   return (
     <Background style={styles.container}>
-      <Text category="h1">Plants!</Text>
-      <Button onPress={() => signOut()}>Log out</Button>
+      <Button onPress={() => setShowModal(true)}>Create</Button>
+      <Modal
+        visible={showModal}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setShowModal(false)}
+      >
+        <EditPlantForm />
+      </Modal>
     </Background>
   );
 }
 
 const styles = StyleSheet.create({
+  backdrop: {
+    backgroundColor: ModalBackground,
+  },
   container: {
     flex: 1,
     alignItems: "center",
