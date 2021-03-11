@@ -1,6 +1,14 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Icon, useTheme } from "@ui-kitten/components";
+import {
+  BottomNavigation,
+  BottomNavigationTab,
+  Icon,
+  useTheme,
+} from "@ui-kitten/components";
 import * as React from "react";
 
 import LoginScreen from "../screens/LoginScreen";
@@ -13,45 +21,32 @@ import {
 
 const BottomTab = createBottomTabNavigator<UnauthenticatedParamList>();
 
+const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
+  <BottomNavigation
+    selectedIndex={state.index}
+    onSelect={(index) => navigation.navigate(state.routeNames[index])}
+  >
+    <BottomNavigationTab
+      title="Sign In"
+      icon={(props) => <Icon {...props} name="person-outline" />}
+    />
+    <BottomNavigationTab
+      title="Sign Up"
+      icon={(props) => <Icon {...props} name="edit-outline" />}
+    />
+  </BottomNavigation>
+);
+
 export default function UnauthenticatedNavigator() {
   const theme = useTheme();
   return (
     <BottomTab.Navigator
       initialRouteName="Login"
       tabBarOptions={{ activeTintColor: theme["color-primary-default"] }}
+      tabBar={(props) => <BottomTabBar {...props} />}
     >
-      <BottomTab.Screen
-        name="Login"
-        component={LoginNavigator}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon
-              style={{
-                width: size,
-                height: size,
-              }}
-              name="person-outline"
-              fill={color}
-            />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Register"
-        component={RegisterNavigator}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon
-              style={{
-                width: size,
-                height: size,
-              }}
-              name="edit-outline"
-              fill={color}
-            />
-          ),
-        }}
-      />
+      <BottomTab.Screen name="Login" component={LoginNavigator} />
+      <BottomTab.Screen name="Register" component={RegisterNavigator} />
     </BottomTab.Navigator>
   );
 }
