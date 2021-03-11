@@ -9,7 +9,9 @@ import { ColorSchemeName } from "react-native";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "./types";
 import UnauthenticatedNavigator from "./UnauthenticatedNavigation";
-import AuthenticatedNavigator from "./AuthenticatedNavigation";
+import AuthenticatedNavigator, {
+  SettingsNavigator,
+} from "./AuthenticatedNavigation";
 import LinkingConfiguration from "./LinkingConfiguration";
 import { AuthContext } from "../services/context";
 
@@ -43,7 +45,10 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {token ? (
-        <Stack.Screen name="Root" component={AuthenticatedNavigator} />
+        <>
+          <Stack.Screen name="Root" component={AuthenticatedNavigator} />
+          <Stack.Screen name="Settings" component={SettingsNavigator} />
+        </>
       ) : (
         <Stack.Screen name="Root" component={UnauthenticatedNavigator} />
       )}

@@ -4,7 +4,7 @@ import { Margin } from "../constants/Sizes";
 
 type BackgroundProps = {
   children: JSX.Element | JSX.Element[];
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 };
 
 export const Background = ({ children, style }: BackgroundProps) => (

@@ -17,7 +17,13 @@ import { SettingsButton } from "../components";
 
 import HomeScreen from "../screens/HomeScreen";
 import PlantsScreen from "../screens/PlantsScreen";
-import { AuthenticatedParamList, HomeParamList, PlantParamList } from "./types";
+import SettingsScreen from "../screens/SettingsScreen";
+import {
+  AuthenticatedParamList,
+  HomeParamList,
+  PlantParamList,
+  SettingsParamList,
+} from "./types";
 
 const BottomTab = createBottomTabNavigator<AuthenticatedParamList>();
 
@@ -80,5 +86,18 @@ function PlantNavigator() {
         options={{ headerTitle: "Plants" }}
       />
     </PlantStack.Navigator>
+  );
+}
+
+const SettingsStack = createStackNavigator<SettingsParamList>();
+export function SettingsNavigator() {
+  return (
+    <SettingsStack.Navigator screenOptions={sharedScreenOptions}>
+      <SettingsStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{ headerTitle: "Settings" }}
+      />
+    </SettingsStack.Navigator>
   );
 }

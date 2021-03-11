@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Root: undefined;
+  Settings: undefined;
   NotFound: undefined;
 };
 
@@ -27,4 +28,8 @@ export type HomeParamList = {
 
 export type PlantParamList = {
   PlantsScreen: undefined;
+};
+
+export type SettingsParamList = {
+  SettingsScreen: undefined;
 };
