@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Input } from "@ui-kitten/components";
 import { AuthContext } from "../services/context";
 import { useNavigation } from "@react-navigation/native";
-import { ErrorToast } from "../components";
-import { Button } from "../components/Button";
+import { Background, Button, ErrorToast } from "../components";
+import { Margin } from "../constants/Sizes";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -20,13 +20,14 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <Background style={styles.container}>
       <Input
         autoCapitalize="none"
         label="Email"
         placeholder="seedling@user.com"
         value={email}
         onChange={(e) => setEmail(e.nativeEvent.text)}
+        style={styles.input}
       />
       <Input
         label="Password"
@@ -34,12 +35,13 @@ export default function LoginScreen() {
         value={password}
         secureTextEntry={true}
         onChange={(e) => setPassword(e.nativeEvent.text)}
+        style={styles.input}
       />
       <Button loading={loading} onPress={loginUser}>
         Sign in!
       </Button>
       <ErrorToast error={error} />
-    </View>
+    </Background>
   );
 }
 
@@ -48,5 +50,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    marginBottom: Margin.sm,
   },
 });
