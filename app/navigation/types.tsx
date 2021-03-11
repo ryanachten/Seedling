@@ -18,8 +18,13 @@ export type RegisterParamList = {
 
 export type AuthenticatedParamList = {
   Home: undefined;
+  Plants: undefined;
 };
 
 export type HomeParamList = {
   HomeScreen: undefined;
+};
+
+export type PlantParamList = {
+  PlantsScreen: undefined;
 };
