@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using api.Models;
 
-namespace api.Data
+namespace api.Interfaces
 {
     public interface IBiodiversityResource
     {

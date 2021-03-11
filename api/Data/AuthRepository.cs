@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using api.Interfaces;
 
 namespace api.Data
 {

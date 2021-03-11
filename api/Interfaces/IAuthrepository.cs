@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using api.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace api.Data
+namespace api.Interfaces
 {
     public interface IAuthrepository
     {

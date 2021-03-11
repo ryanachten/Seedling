@@ -1,6 +1,7 @@
 using System;
 using api.Data;
 using api.Helpers;
+using api.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -61,10 +62,9 @@ namespace Seedling
                 c.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
             });
 
-            services.AddScoped<ISeedRepository, SeedRepository>();
-            services.AddScoped<IAuthrepository, AuthRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBiodiversityResource, BiodiversityResource>();
-            services.AddAutoMapper(typeof(SeedRepository).Assembly);
+            services.AddAutoMapper(typeof(PlantRepository).Assembly, typeof(UserRepository).Assembly);
 
         }
 
