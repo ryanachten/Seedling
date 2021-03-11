@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Input } from "@ui-kitten/components";
+import { Input } from "@ui-kitten/components";
 import { AuthContext } from "../services/context";
 import { useNavigation } from "@react-navigation/native";
+import { ErrorToast } from "../components";
+import { Button } from "../components/Button";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -33,7 +35,10 @@ export default function LoginScreen() {
         secureTextEntry={true}
         onChange={(e) => setPassword(e.nativeEvent.text)}
       />
-      <Button onPress={loginUser}>Sign in!</Button>
+      <Button loading={loading} onPress={loginUser}>
+        Sign in!
+      </Button>
+      <ErrorToast error={error} />
     </View>
   );
 }

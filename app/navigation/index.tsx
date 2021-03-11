@@ -4,7 +4,7 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ColorSchemeName } from "react-native";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "./types";
@@ -36,7 +36,9 @@ function RootNavigator() {
     state: { token },
   } = useContext(AuthContext);
 
-  restoreToken();
+  useEffect(() => {
+    restoreToken();
+  }, []);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
