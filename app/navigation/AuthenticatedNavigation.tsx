@@ -2,7 +2,10 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from "@react-navigation/stack";
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -10,6 +13,7 @@ import {
   useTheme,
 } from "@ui-kitten/components";
 import * as React from "react";
+import { SettingsButton } from "../components";
 
 import HomeScreen from "../screens/HomeScreen";
 import PlantsScreen from "../screens/PlantsScreen";
@@ -33,11 +37,17 @@ const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
   </BottomNavigation>
 );
 
+const sharedScreenOptions: StackNavigationOptions = {
+  headerRight: () => <SettingsButton />,
+  headerTitleAlign: "center",
+};
+
 export default function AuthenticatedNavigator() {
   const theme = useTheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      screenOptions={sharedScreenOptions}
+      initialRouteName="Plants"
       tabBarOptions={{ activeTintColor: theme["color-primary-default"] }}
       tabBar={(props) => <BottomTabBar {...props} />}
     >
@@ -63,7 +73,7 @@ function HomeNavigator() {
 const PlantStack = createStackNavigator<PlantParamList>();
 function PlantNavigator() {
   return (
-    <PlantStack.Navigator>
+    <PlantStack.Navigator screenOptions={sharedScreenOptions}>
       <PlantStack.Screen
         name="PlantsScreen"
         component={PlantsScreen}

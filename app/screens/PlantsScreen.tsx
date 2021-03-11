@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
 import { AuthContext } from "../services/context";
+import { Background } from "../components";
 
 export default function PlantScreen() {
   const {
@@ -9,10 +10,10 @@ export default function PlantScreen() {
   } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
+    <Background style={styles.container}>
       <Text category="h1">Plants!</Text>
       <Button onPress={() => signOut()}>Log out</Button>
-    </View>
+    </Background>
   );
 }
 
