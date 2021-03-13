@@ -27,6 +27,7 @@ export const plantActions = (
   dispatch: React.Dispatch<PlantAction>
 ): PlantActions => ({
   searchPlant: async (searchTerm: string) => {
+    dispatch({ type: baseTypes.LOADING });
     try {
       const { data: searchResults } = await axios.get<Array<SearchResult>>(
         SEARCH_URL,
