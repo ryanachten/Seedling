@@ -5,6 +5,11 @@ export interface Plant {
   userId: number;
 }
 
+export interface SearchResult {
+  key: number;
+  scientificName: string;
+}
+
 export interface User {
   id: number;
   firstName: string;

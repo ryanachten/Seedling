@@ -19,8 +19,8 @@ namespace api.Controllers
         [HttpGet()]
         public async Task<IActionResult> Search([FromQuery(Name = "q")] string term)
         {
-            var results = await _bioResource.SearchSpecies(term);
-            return Ok(results);
+            var response = await _bioResource.SearchSpecies(term);
+            return Ok(response.Results);
         }
     }
 }
