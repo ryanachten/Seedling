@@ -11,7 +11,11 @@ export type PlantState = BaseState & {
   plants: Array<Plant>;
 };
 
-export type PlantAction = BaseActions;
+export type PlantAction =
+  | BaseActions
+  | {
+      type: plantTypes.SEARCH_PLANT;
+    };
 
 export type PlantActions = {
   searchPlant: (searchTerm: string) => Promise<Array<SearchResult> | undefined>;
@@ -37,6 +41,7 @@ export const plantActions = (
           },
         }
       );
+      dispatch({ type: plantTypes.SEARCH_PLANT });
       return searchResults;
     } catch (e) {
       dispatch({ type: baseTypes.ERROR, error: e.message });
@@ -59,6 +64,12 @@ export const plantReducer = (
       return {
         ...state,
         loading: true,
+        error: null,
+      };
+    case plantTypes.SEARCH_PLANT:
+      return {
+        ...state,
+        loading: false,
         error: null,
       };
     default:
