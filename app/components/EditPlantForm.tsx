@@ -35,10 +35,6 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
     setSearchResults(results || []);
   };
 
-  useEffect(() => {
-    searchForScientificName(searchTerm);
-  }, [searchTerm]);
-
   const selectScientificName = (index: number) => {
     const { scientificName, key } = searchResults[index];
     setScientificName(scientificName);
@@ -55,22 +51,6 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
         onChange={(e) => setName(e.nativeEvent.text)}
         style={styles.input}
       />
-      {scientificName ? (
-        <Input
-          disabled
-          label="Scientific Name"
-          value={scientificName}
-          style={styles.input}
-        />
-      ) : null}
-      {bioResourceKey ? (
-        <Input
-          disabled
-          label="GBIF Key"
-          value={bioResourceKey.toString()}
-          style={styles.input}
-        />
-      ) : null}
       <Input
         label="Search Scientific Name"
         placeholder="Echinopsis pachanoi"
@@ -99,10 +79,26 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
             />
           )}
         />
-        {/* <Button loading={loading} onPress={loginUser}>
+      </ScrollView>
+      {scientificName ? (
+        <Input
+          disabled
+          label="Scientific Name"
+          value={scientificName}
+          style={styles.input}
+        />
+      ) : null}
+      {bioResourceKey ? (
+        <Input
+          disabled
+          label="GBIF Key"
+          value={bioResourceKey.toString()}
+          style={styles.input}
+        />
+      ) : null}
+      {/* <Button loading={loading} onPress={loginUser}>
         Create!
       </Button> */}
-      </ScrollView>
       <ErrorToast error={error} />
     </Card>
   );
@@ -115,6 +111,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: Margin.sm,
-    width: "100%",
+    minWidth: "100%",
   },
 });
