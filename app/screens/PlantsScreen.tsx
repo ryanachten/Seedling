@@ -7,12 +7,7 @@ import { PlantContext } from "../services/context";
 
 export default function PlantScreen() {
   const [showModal, setShowModal] = useState(false);
-  const {
-    state: { error, loading },
-    actions: { searchPlant },
-  } = useContext(PlantContext);
-  console.log("error, loading", error, loading);
-
+  const context = useContext(PlantContext);
   return (
     <Background style={styles.container}>
       <Button onPress={() => setShowModal(true)}>Create</Button>
@@ -21,7 +16,7 @@ export default function PlantScreen() {
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setShowModal(false)}
       >
-        <EditPlantForm />
+        <EditPlantForm context={context} />
       </Modal>
     </Background>
   );

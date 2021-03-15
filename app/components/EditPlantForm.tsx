@@ -4,20 +4,25 @@ import {
   Card,
   Input,
 } from "@ui-kitten/components";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { SearchResult } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
-import { AuthContext, PlantContext } from "../services/context";
-import { Button } from "./Button";
+import { PlantActions, PlantState } from "../reducers/plant";
 import { ErrorToast } from "./ErrorToast";
 
-export const EditPlantForm = () => {
+type EditPlantFormProps = {
+  context: {
+    state: PlantState;
+    actions: PlantActions;
+  };
+};
+
+export const EditPlantForm = ({ context }: EditPlantFormProps) => {
   const {
     state: { error, loading },
     actions: { searchPlant },
-  } = useContext(PlantContext);
-
+  } = context;
   const [name, setName] = useState("");
   const [scientificName, setScientificName] = useState("");
   const [bioResourceKey, setBioResourceKey] = useState<number>();
