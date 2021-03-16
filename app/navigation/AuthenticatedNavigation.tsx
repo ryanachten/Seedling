@@ -4,6 +4,7 @@ import {
 } from "@react-navigation/bottom-tabs";
 import {
   createStackNavigator,
+  StackHeaderLeftButtonProps,
   StackNavigationOptions,
 } from "@react-navigation/stack";
 import {
@@ -13,7 +14,7 @@ import {
   useTheme,
 } from "@ui-kitten/components";
 import * as React from "react";
-import { SettingsButton } from "../components";
+import { BackButton, SettingsButton } from "../components";
 import { EditPlantScreen } from "../screens/EditPlantScreen";
 
 import HomeScreen from "../screens/HomeScreen";
@@ -46,6 +47,7 @@ const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
 
 const sharedScreenOptions: StackNavigationOptions = {
   headerRight: () => <SettingsButton />,
+  headerLeft: (props: StackHeaderLeftButtonProps) => <BackButton {...props} />,
   headerTitleAlign: "center",
 };
 

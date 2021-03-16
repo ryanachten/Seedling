@@ -10,7 +10,7 @@ import {
 } from "@ui-kitten/components";
 import React, { useContext, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Background, ErrorToast, Icon } from "../components";
+import { Background, Button, ErrorToast, Icon } from "../components";
 import { SearchResult } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
 import { PlantContext } from "../services/context";
@@ -114,6 +114,7 @@ export const EditPlantScreen = () => {
       <Datepicker
         label="Last Watered"
         date={lastWatered}
+        placeholder="DD/MM/YYYY"
         onSelect={(nextDate) => setLastWatered(nextDate)}
         style={styles.input}
       />
@@ -121,6 +122,7 @@ export const EditPlantScreen = () => {
         <Input
           label="Schedule"
           keyboardType="number-pad"
+          placeholder="1"
           value={frequency.toString()}
           style={styles.scheduleInput}
           onChange={(e) => setFrequency(e.nativeEvent.text)}
@@ -136,9 +138,7 @@ export const EditPlantScreen = () => {
         </RadioGroup>
       </View>
 
-      {/* <Button loading={loading} onPress={loginUser}>
-        Create!
-      </Button> */}
+      <Button loading={loading}>Create!</Button>
       <ErrorToast error={error} />
     </Background>
   );
@@ -165,5 +165,6 @@ const styles = StyleSheet.create({
   scheduleWrapper: {
     display: "flex",
     flexDirection: "row",
+    marginBottom: Margin.sm,
   },
 });

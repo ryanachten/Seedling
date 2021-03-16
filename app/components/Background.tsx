@@ -13,7 +13,6 @@ export const Background = ({ children, style }: BackgroundProps) => (
 
 const styles = StyleSheet.create({
   root: {
-    paddingLeft: Margin.md,
-    paddingRight: Margin.md,
+    padding: Margin.md,
   },
 });
