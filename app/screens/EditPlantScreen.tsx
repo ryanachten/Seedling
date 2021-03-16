@@ -1,5 +1,4 @@
 import {
-  Card,
   Datepicker,
   Divider,
   Input,
@@ -8,29 +7,19 @@ import {
   Radio,
   RadioGroup,
   Spinner,
-  Text,
 } from "@ui-kitten/components";
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { useContext, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Background, ErrorToast, Icon } from "../components";
 import { SearchResult } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
-import { PlantActions, PlantState } from "../reducers/plant";
-import { ErrorToast } from "./ErrorToast";
-import { Icon } from "./Icon";
+import { PlantContext } from "../services/context";
 
-type EditPlantFormProps = {
-  context: {
-    state: PlantState;
-    actions: PlantActions;
-  };
-};
-
-export const EditPlantForm = ({ context }: EditPlantFormProps) => {
+export const EditPlantScreen = () => {
   const {
     state: { error, loading },
     actions: { searchPlant },
-  } = context;
+  } = useContext(PlantContext);
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [scientificName, setScientificName] = useState("");
@@ -54,9 +43,8 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
     setBioResourceKey(key);
     setSearchResults([]);
   };
-
   return (
-    <Card style={styles.root}>
+    <Background>
       <Input
         label="Name"
         placeholder="San pedro cactus"
@@ -110,7 +98,9 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
           value={scientificName}
           style={styles.input}
         />
-      ) : null}
+      ) : (
+        <View />
+      )}
       {bioResourceKey ? (
         <Input
           disabled
@@ -118,7 +108,9 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
           value={bioResourceKey.toString()}
           style={styles.input}
         />
-      ) : null}
+      ) : (
+        <View />
+      )}
       <Datepicker
         label="Last Watered"
         date={lastWatered}
@@ -148,7 +140,7 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
         Create!
       </Button> */}
       <ErrorToast error={error} />
-    </Card>
+    </Background>
   );
 };
 

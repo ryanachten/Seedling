@@ -28,6 +28,7 @@ export type HomeParamList = {
 
 export type PlantParamList = {
   PlantsScreen: undefined;
+  EditPlantScreen: undefined;
 };
 
 export type SettingsParamList = {

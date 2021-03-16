@@ -1,23 +1,15 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import { Modal, Text } from "@ui-kitten/components";
-import { Background, Button, EditPlantForm } from "../components";
+import { Background, Button } from "../components";
 import { ModalBackground } from "../constants/Colors";
-import { PlantContext } from "../services/context";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PlantScreen() {
-  const [showModal, setShowModal] = useState(false);
-  const context = useContext(PlantContext);
+  const nav = useNavigation();
+  const goToEditScreen = () => nav.navigate("EditPlantScreen");
   return (
     <Background style={styles.container}>
-      <Button onPress={() => setShowModal(true)}>Create</Button>
-      <Modal
-        visible={showModal}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setShowModal(false)}
-      >
-        <EditPlantForm context={context} />
-      </Modal>
+      <Button onPress={goToEditScreen}>Create</Button>
     </Background>
   );
 }

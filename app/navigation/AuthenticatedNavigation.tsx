@@ -14,6 +14,7 @@ import {
 } from "@ui-kitten/components";
 import * as React from "react";
 import { SettingsButton } from "../components";
+import { EditPlantScreen } from "../screens/EditPlantScreen";
 
 import HomeScreen from "../screens/HomeScreen";
 import PlantsScreen from "../screens/PlantsScreen";
@@ -84,6 +85,11 @@ function PlantNavigator() {
         name="PlantsScreen"
         component={PlantsScreen}
         options={{ headerTitle: "Plants" }}
+      />
+      <PlantStack.Screen
+        name="EditPlantScreen"
+        component={EditPlantScreen}
+        options={{ headerTitle: "Edit Plant" }}
       />
     </PlantStack.Navigator>
   );
