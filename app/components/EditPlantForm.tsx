@@ -1,6 +1,17 @@
-import { Card, Input, List, ListItem, Spinner } from "@ui-kitten/components";
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import {
+  Card,
+  Datepicker,
+  Divider,
+  Input,
+  List,
+  ListItem,
+  Radio,
+  RadioGroup,
+  Spinner,
+  Text,
+} from "@ui-kitten/components";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SearchResult } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
@@ -25,9 +36,11 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
   const [scientificName, setScientificName] = useState("");
   const [bioResourceKey, setBioResourceKey] = useState<number>();
   const [searchResults, setSearchResults] = useState<Array<SearchResult>>([]);
+  const [lastWatered, setLastWatered] = useState<Date>();
+  const [frequency, setFrequency] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const searchForScientificName = async (term: string) => {
-    // TODO: might need to debounce this to prevent excess queries
     if (term.length < 4) {
       return setSearchResults([]);
     }
@@ -60,18 +73,28 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
           loading ? (
             <Spinner size="small" status="primary" />
           ) : (
-            <Icon
-              size="sm"
-              name="search-outline"
-              onPress={() => searchForScientificName(searchTerm)}
-            />
+            <>
+              {searchResults.length ? (
+                <Icon
+                  size="sm"
+                  name="close-outline"
+                  onPress={() => setSearchResults([])}
+                />
+              ) : null}
+              <Icon
+                size="sm"
+                name="search-outline"
+                onPress={() => searchForScientificName(searchTerm)}
+              />
+            </>
           )
         }
         style={styles.input}
       />
-      <ScrollView style={{ maxHeight: 200 }}>
+      <ScrollView style={styles.searchScroll}>
         <List
           data={searchResults}
+          ItemSeparatorComponent={Divider}
           renderItem={({ item, index }) => (
             <ListItem
               title={`${item.scientificName}`}
@@ -96,6 +119,31 @@ export const EditPlantForm = ({ context }: EditPlantFormProps) => {
           style={styles.input}
         />
       ) : null}
+      <Datepicker
+        label="Last Watered"
+        date={lastWatered}
+        onSelect={(nextDate) => setLastWatered(nextDate)}
+        style={styles.input}
+      />
+      <View style={styles.scheduleWrapper}>
+        <Input
+          label="Schedule"
+          keyboardType="number-pad"
+          value={frequency.toString()}
+          style={styles.scheduleInput}
+          onChange={(e) => setFrequency(e.nativeEvent.text)}
+        />
+        <RadioGroup
+          selectedIndex={selectedIndex}
+          style={styles.scheduleRadio}
+          onChange={(index) => setSelectedIndex(index)}
+        >
+          <Radio>Days</Radio>
+          <Radio>Weeks</Radio>
+          <Radio>Months</Radio>
+        </RadioGroup>
+      </View>
+
       {/* <Button loading={loading} onPress={loginUser}>
         Create!
       </Button> */}
@@ -108,9 +156,22 @@ const styles = StyleSheet.create({
   root: {
     marginLeft: Margin.md,
     marginRight: Margin.md,
+    minHeight: "80%",
   },
+  searchScroll: { maxHeight: 200 },
   input: {
     marginBottom: Margin.sm,
     minWidth: "100%",
+  },
+  scheduleInput: {
+    flexGrow: 1,
+    marginRight: Margin.md,
+  },
+  scheduleRadio: {
+    marginTop: Margin.sm,
+  },
+  scheduleWrapper: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
