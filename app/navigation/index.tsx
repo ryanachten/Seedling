@@ -13,7 +13,7 @@ import AuthenticatedNavigator, {
   SettingsNavigator,
 } from "./AuthenticatedNavigation";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AuthContext } from "../services/context";
+import { AuthContext, UserContext } from "../services/context";
 
 export default function Navigation({
   colorScheme,
@@ -37,9 +37,13 @@ function RootNavigator() {
     actions: { restoreToken },
     state: { token },
   } = useContext(AuthContext);
+  const {
+    actions: { restoreUser },
+  } = useContext(UserContext);
 
   useEffect(() => {
     restoreToken();
+    restoreUser();
   }, []);
 
   return (
