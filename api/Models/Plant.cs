@@ -17,7 +17,7 @@ namespace api.Models
         public User User { get; set; }
         public DateTime LastWatered { get; set; }
         public int WateringFrequency { get; set; }
-        public WateringPeriod WateringPriod { get; set; }
+        public WateringPeriod WateringPeriod { get; set; }
 
     }
 }
