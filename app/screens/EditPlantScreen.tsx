@@ -14,7 +14,8 @@ import { Background, Button, ErrorToast, Icon } from "../components";
 import {
   PlantForCreate,
   SearchResult,
-  WateringPeriod,
+  WateringPeriodOption,
+  WateringPeriodValue,
 } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
 import { PlantContext, UserContext } from "../services/context";
@@ -38,7 +39,7 @@ export const EditPlantScreen = () => {
   const [frequency, setFrequency] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const wateringPeriods: Array<WateringPeriod> = ["days", "weeks", "months"];
+  const wateringPeriods: WateringPeriodOption[] = ["days", "weeks", "months"];
 
   const searchForScientificName = async (term: string) => {
     if (term.length < 4) {
@@ -65,8 +66,8 @@ export const EditPlantScreen = () => {
       lastWatered,
       userId: user.id,
       biodiversityResourceKey: bioResourceKey,
-      wateringFrequency: parseFloat(frequency),
-      wateringPeriod: wateringPeriods[selectedIndex],
+      wateringFrequency: parseInt(frequency),
+      wateringPeriod: selectedIndex as WateringPeriodValue,
     };
     createPlant(plantForCreate);
   };
