@@ -6,3 +6,4 @@ export const REGISTER_URL = `${API_URL}/auth/register`;
 
 // Authorized endpoints
 export const SEARCH_URL = `${API_URL}/search`;
+export const PLANT_URL = `${API_URL}/plant`;

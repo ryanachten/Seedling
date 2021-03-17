@@ -1,10 +1,11 @@
 import axios from "axios";
-import { SEARCH_URL } from "../constants/Api";
-import { Plant, SearchResult } from "../constants/Interfaces";
+import { PLANT_URL, SEARCH_URL } from "../constants/Api";
+import { Plant, PlantForCreate, SearchResult } from "../constants/Interfaces";
 import { BaseActions, BaseState, baseTypes } from "./base";
 
 export enum plantTypes {
   SEARCH_PLANT = "SEARCH_PLANT",
+  CREATE_PLANT = "CREATE_PLANT",
 }
 
 export type PlantState = BaseState & {
@@ -15,10 +16,15 @@ export type PlantAction =
   | BaseActions
   | {
       type: plantTypes.SEARCH_PLANT;
+    }
+  | {
+      type: plantTypes.CREATE_PLANT;
+      plant: Plant;
     };
 
 export type PlantActions = {
   searchPlant: (searchTerm: string) => Promise<Array<SearchResult> | undefined>;
+  createPlant: (plant: PlantForCreate) => Promise<void>;
 };
 
 export const initialPlantState: PlantState = {
@@ -30,6 +36,15 @@ export const initialPlantState: PlantState = {
 export const plantActions = (
   dispatch: React.Dispatch<PlantAction>
 ): PlantActions => ({
+  createPlant: async (plantToCreate: PlantForCreate) => {
+    try {
+      dispatch({ type: baseTypes.LOADING });
+      const { data: plant } = await axios.post<Plant>(PLANT_URL, plantToCreate);
+      dispatch({ type: plantTypes.CREATE_PLANT, plant });
+    } catch (error) {
+      dispatch({ type: baseTypes.ERROR, error });
+    }
+  },
   searchPlant: async (searchTerm: string) => {
     dispatch({ type: baseTypes.LOADING });
     try {

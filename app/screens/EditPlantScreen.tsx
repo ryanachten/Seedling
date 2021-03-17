@@ -11,14 +11,18 @@ import {
 import React, { useContext, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Background, Button, ErrorToast, Icon } from "../components";
-import { SearchResult } from "../constants/Interfaces";
+import {
+  PlantForCreate,
+  SearchResult,
+  WateringPeriod,
+} from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
 import { PlantContext } from "../services/context";
 
 export const EditPlantScreen = () => {
   const {
     state: { error, loading },
-    actions: { searchPlant },
+    actions: { createPlant, searchPlant },
   } = useContext(PlantContext);
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +32,8 @@ export const EditPlantScreen = () => {
   const [lastWatered, setLastWatered] = useState<Date>();
   const [frequency, setFrequency] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const wateringPeriods: Array<WateringPeriod> = ["daily", "weekly", "monthly"];
 
   const searchForScientificName = async (term: string) => {
     if (term.length < 4) {
@@ -43,6 +49,22 @@ export const EditPlantScreen = () => {
     setBioResourceKey(key);
     setSearchResults([]);
   };
+
+  const submitPlant = () => {
+    if (!lastWatered || !bioResourceKey || !frequency) {
+      // TODO: proper form validation
+      return;
+    }
+    const plantForCreate: PlantForCreate = {
+      name,
+      lastWatered,
+      biodiversityResourceKey: bioResourceKey,
+      wateringFrequency: parseFloat(frequency),
+      wateringPeriod: wateringPeriods[selectedIndex],
+    };
+    createPlant(plantForCreate);
+  };
+
   return (
     <Background>
       <Input
@@ -132,13 +154,15 @@ export const EditPlantScreen = () => {
           style={styles.scheduleRadio}
           onChange={(index) => setSelectedIndex(index)}
         >
-          <Radio>Days</Radio>
-          <Radio>Weeks</Radio>
-          <Radio>Months</Radio>
+          {wateringPeriods.map((p) => (
+            <Radio>{p}</Radio>
+          ))}
         </RadioGroup>
       </View>
 
-      <Button loading={loading}>Create!</Button>
+      <Button loading={loading} onPress={submitPlant}>
+        Create!
+      </Button>
       <ErrorToast error={error} />
     </Background>
   );
