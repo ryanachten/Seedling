@@ -1,13 +1,8 @@
 import React from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Margin } from "../constants/Sizes";
 
-type BackgroundProps = {
-  children: JSX.Element | JSX.Element[];
-  style?: StyleProp<ViewStyle>;
-};
-
-export const Background = ({ children, style }: BackgroundProps) => (
+export const Background = ({ children, style }: View["props"]) => (
   <View style={[styles.root, style]}>{children}</View>
 );
 
