@@ -1,4 +1,6 @@
-export type WateringPeriod = "days" | "weeks" | "months";
+// Corresponds with API enum
+export type WateringPeriodOption = "days" | "weeks" | "months";
+export type WateringPeriodValue = 0 | 1 | 2;
 
 export interface Plant {
   id: number;
@@ -7,7 +9,7 @@ export interface Plant {
   biodiversityResourceKey: number;
   lastWatered: Date;
   wateringFrequency: number;
-  wateringPeriod: WateringPeriod;
+  wateringPeriod: WateringPeriodValue;
 }
 
 export interface PlantForCreate {
@@ -16,7 +18,7 @@ export interface PlantForCreate {
   biodiversityResourceKey: number;
   lastWatered: Date;
   wateringFrequency: number;
-  wateringPeriod: WateringPeriod;
+  wateringPeriod: WateringPeriodValue;
 }
 
 export interface SearchResult {

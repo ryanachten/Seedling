@@ -53,7 +53,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePlant([FromForm] PlantForCreate plantToCreate)
+        public async Task<IActionResult> CreatePlant(PlantForCreate plantToCreate)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (Int32.Parse(userId) != plantToCreate.UserId)
