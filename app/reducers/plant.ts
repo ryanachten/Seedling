@@ -84,31 +84,45 @@ export const plantReducer = (
   action: PlantAction
 ): PlantState => {
   switch (action.type) {
-    case baseTypes.ERROR:
+    case baseTypes.ERROR: {
       return {
         ...state,
         loading: false,
         error: action.error,
       };
-    case baseTypes.LOADING:
+    }
+    case baseTypes.LOADING: {
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case plantTypes.SEARCH_PLANT:
+    }
+    case plantTypes.SEARCH_PLANT: {
       return {
         ...state,
         loading: false,
         error: null,
       };
-    case plantTypes.GET_PLANTS:
+    }
+    case plantTypes.GET_PLANTS: {
       return {
         ...state,
         plants: action.plants,
         loading: false,
         error: null,
       };
+    }
+    case plantTypes.CREATE_PLANT: {
+      const plants = [...state.plants, action.plant];
+      return {
+        ...state,
+        plants,
+        loading: false,
+        error: null,
+      };
+    }
+
     default:
       return state;
   }

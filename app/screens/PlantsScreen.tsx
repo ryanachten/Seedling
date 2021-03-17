@@ -27,18 +27,16 @@ export default function PlantScreen() {
   const goToEditScreen = () => nav.navigate("EditPlantScreen");
   return (
     <Background style={styles.container}>
+      <Button onPress={goToEditScreen}>Create</Button>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={getPlants} />
         }
       >
         {plants.map(({ name }, i) => (
-          <Text category="p1" key={i}>
-            {name}
-          </Text>
+          <Text key={i}>{name}</Text>
         ))}
       </ScrollView>
-      <Button onPress={goToEditScreen}>Create</Button>
       <ErrorToast error={error} />
     </Background>
   );
