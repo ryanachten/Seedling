@@ -17,13 +17,18 @@ import {
   WateringPeriod,
 } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
-import { PlantContext } from "../services/context";
+import { PlantContext, UserContext } from "../services/context";
 
 export const EditPlantScreen = () => {
   const {
     state: { error, loading },
     actions: { createPlant, searchPlant },
   } = useContext(PlantContext);
+
+  const {
+    state: { user },
+  } = useContext(UserContext);
+
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [scientificName, setScientificName] = useState("");
@@ -33,7 +38,7 @@ export const EditPlantScreen = () => {
   const [frequency, setFrequency] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const wateringPeriods: Array<WateringPeriod> = ["daily", "weekly", "monthly"];
+  const wateringPeriods: Array<WateringPeriod> = ["days", "weeks", "months"];
 
   const searchForScientificName = async (term: string) => {
     if (term.length < 4) {
@@ -58,6 +63,7 @@ export const EditPlantScreen = () => {
     const plantForCreate: PlantForCreate = {
       name,
       lastWatered,
+      userId: user.id,
       biodiversityResourceKey: bioResourceKey,
       wateringFrequency: parseFloat(frequency),
       wateringPeriod: wateringPeriods[selectedIndex],
