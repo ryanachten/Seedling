@@ -29,11 +29,11 @@ export type UserActions = {
 
 export const initialUserState: UserState = {
   user: {
-    id: "",
+    id: 0,
     firstName: "",
     lastName: "",
     email: "",
-    exercises: [],
+    plants: [],
   },
   loading: false,
   error: null,

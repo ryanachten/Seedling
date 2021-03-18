@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Root: undefined;
+  Settings: undefined;
   NotFound: undefined;
 };
 
@@ -18,8 +19,18 @@ export type RegisterParamList = {
 
 export type AuthenticatedParamList = {
   Home: undefined;
+  Plants: undefined;
 };
 
 export type HomeParamList = {
   HomeScreen: undefined;
+};
+
+export type PlantParamList = {
+  PlantsScreen: undefined;
+  EditPlantScreen: undefined;
+};
+
+export type SettingsParamList = {
+  SettingsScreen: undefined;
 };

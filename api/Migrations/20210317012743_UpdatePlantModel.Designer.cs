@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Data;
@@ -9,9 +10,10 @@ using api.Data;
 namespace Seedling.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210317012743_UpdatePlantModel")]
+    partial class UpdatePlantModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace Seedling.Migrations
                     b.Property<int>("WateringFrequency")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WateringPeriod")
+                    b.Property<int>("WateringPriod")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

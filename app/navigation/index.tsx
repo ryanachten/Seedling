@@ -4,14 +4,16 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ColorSchemeName } from "react-native";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "./types";
 import UnauthenticatedNavigator from "./UnauthenticatedNavigation";
-import AuthenticatedNavigator from "./AuthenticatedNavigation";
+import AuthenticatedNavigator, {
+  SettingsNavigator,
+} from "./AuthenticatedNavigation";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AuthContext } from "../services/context";
+import { AuthContext, UserContext } from "../services/context";
 
 export default function Navigation({
   colorScheme,
@@ -35,13 +37,22 @@ function RootNavigator() {
     actions: { restoreToken },
     state: { token },
   } = useContext(AuthContext);
+  const {
+    actions: { restoreUser },
+  } = useContext(UserContext);
 
-  restoreToken();
+  useEffect(() => {
+    restoreToken();
+    restoreUser();
+  }, []);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {token ? (
-        <Stack.Screen name="Root" component={AuthenticatedNavigator} />
+        <>
+          <Stack.Screen name="Root" component={AuthenticatedNavigator} />
+          <Stack.Screen name="Settings" component={SettingsNavigator} />
+        </>
       ) : (
         <Stack.Screen name="Root" component={UnauthenticatedNavigator} />
       )}
