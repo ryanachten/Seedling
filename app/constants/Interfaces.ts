@@ -2,6 +2,20 @@
 export type WateringPeriodOption = "days" | "weeks" | "months";
 export type WateringPeriodValue = 0 | 1 | 2;
 
+export interface BiodiversityRecordMedia {
+  type: string; // TODO: probably actually an enum "StillImage"
+  format: string;
+  identifier: string;
+}
+
+export interface BiodiversityRecord {
+  genus: string;
+  scientificName: string;
+  canonicalName: string;
+  authorship: string;
+  media: Array<BiodiversityRecordMedia>;
+}
+
 export interface Plant {
   id: number;
   userId: number;
@@ -10,6 +24,7 @@ export interface Plant {
   lastWatered: Date;
   wateringFrequency: number;
   wateringPeriod: WateringPeriodValue;
+  biodiversityRecord?: BiodiversityRecord;
 }
 
 export interface PlantForCreate {

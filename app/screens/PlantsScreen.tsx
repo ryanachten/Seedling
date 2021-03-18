@@ -1,8 +1,7 @@
 import React from "react";
 import { RefreshControl, StyleSheet, ScrollView } from "react-native";
-import { List, ListItem, Text } from "@ui-kitten/components";
+import { List, ListItem } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
-import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { PlantContext } from "../services/context";
 import { useContext } from "react";
@@ -46,12 +45,4 @@ export default function PlantScreen() {
 }
 
 const styles = StyleSheet.create({
-  backdrop: {
-    backgroundColor: ModalBackground,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });
