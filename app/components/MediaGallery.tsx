@@ -1,34 +1,55 @@
+import { Button } from "@ui-kitten/components";
 import React, { useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { BiodiversityRecordMedia } from "../constants/Interfaces";
+import { Icon } from "./Icon";
 
 interface Props {
   media: Array<BiodiversityRecordMedia>;
+  defaultImageCount?: number;
 }
 
-export const MediaGallery = ({ media }: Props) => {
+export const MediaGallery = ({ defaultImageCount = 5, media }: Props) => {
   const [errorIndices, setErrorIndices] = useState<Array<number>>([]);
+  const [showAllImages, setShowAllImages] = useState(false);
 
   if (!media || !media.length) {
     return <View />;
   }
 
+  let mediaToShow = media.filter((el, i) => !errorIndices.includes(i));
+  if (!showAllImages) {
+    mediaToShow = mediaToShow.slice(0, defaultImageCount);
+  }
+
   return (
     <View style={styles.imageWrapper}>
-      {media.map((m, i) =>
-        errorIndices.includes(i) ? (
-          <View key={i} />
-        ) : (
-          <Image
-            key={i}
-            style={styles.imageThumb}
-            source={{
-              uri: m.identifier,
-            }}
-            onError={() => setErrorIndices([...errorIndices, i])}
+      {mediaToShow.map((m, i) => (
+        <Image
+          key={i}
+          style={styles.imageThumb}
+          source={{
+            uri: m.identifier,
+          }}
+          onError={() => setErrorIndices([...errorIndices, i])}
+        />
+      ))}
+      <Button
+        style={styles.imageThumb}
+        appearance="ghost"
+        status="primary"
+        accessoryLeft={() => (
+          <Icon
+            size="sm"
+            name={
+              showAllImages ? "minus-circle-outline" : "plus-circle-outline"
+            }
           />
-        )
-      )}
+        )}
+        onPress={() => setShowAllImages(!showAllImages)}
+      >
+        {showAllImages ? "Show less" : "Show all"}
+      </Button>
     </View>
   );
 };
@@ -40,7 +61,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   imageThumb: {
-    width: 100,
+    width: "33.33%",
     height: 100,
   },
 });
