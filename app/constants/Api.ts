@@ -1,4 +1,4 @@
-const API_URL = "https://4d87838691ec.ngrok.io"; //"https://seedling-app-api.herokuapp.com"; //
+const API_URL = "https://53ac04f929c1.ngrok.io"; //"https://seedling-app-api.herokuapp.com"; //
 
 // Unauthorized endpoints
 export const LOGIN_URL = `${API_URL}/auth/login`;

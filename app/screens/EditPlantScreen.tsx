@@ -74,103 +74,105 @@ export const EditPlantScreen = () => {
 
   return (
     <Background>
-      <Input
-        label="Name"
-        placeholder="San pedro cactus"
-        value={name}
-        onChange={(e) => setName(e.nativeEvent.text)}
-        style={styles.input}
-      />
-      <Input
-        label="Search Scientific Name"
-        placeholder="Echinopsis pachanoi"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.nativeEvent.text)}
-        accessoryRight={() =>
-          loading ? (
-            <Spinner size="small" status="primary" />
-          ) : (
-            <>
-              {searchResults.length ? (
+      <ScrollView>
+        <Input
+          label="Name"
+          placeholder="San pedro cactus"
+          value={name}
+          onChange={(e) => setName(e.nativeEvent.text)}
+          style={styles.input}
+        />
+        <Input
+          label="Search Scientific Name"
+          placeholder="Echinopsis pachanoi"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.nativeEvent.text)}
+          accessoryRight={() =>
+            loading ? (
+              <Spinner size="small" status="primary" />
+            ) : (
+              <>
+                {searchResults.length ? (
+                  <Icon
+                    size="sm"
+                    name="close-outline"
+                    onPress={() => setSearchResults([])}
+                  />
+                ) : null}
                 <Icon
                   size="sm"
-                  name="close-outline"
-                  onPress={() => setSearchResults([])}
+                  name="search-outline"
+                  onPress={() => searchForScientificName(searchTerm)}
                 />
-              ) : null}
-              <Icon
-                size="sm"
-                name="search-outline"
-                onPress={() => searchForScientificName(searchTerm)}
+              </>
+            )
+          }
+          style={styles.input}
+        />
+        <ScrollView style={styles.searchScroll}>
+          <List
+            data={searchResults}
+            ItemSeparatorComponent={Divider}
+            renderItem={({ item, index }) => (
+              <ListItem
+                title={`${item.scientificName}`}
+                onPress={() => selectScientificName(index)}
               />
-            </>
-          )
-        }
-        style={styles.input}
-      />
-      <ScrollView style={styles.searchScroll}>
-        <List
-          data={searchResults}
-          ItemSeparatorComponent={Divider}
-          renderItem={({ item, index }) => (
-            <ListItem
-              title={`${item.scientificName}`}
-              onPress={() => selectScientificName(index)}
-            />
-          )}
-        />
-      </ScrollView>
-      {scientificName ? (
-        <Input
-          disabled
-          label="Scientific Name"
-          value={scientificName}
+            )}
+          />
+        </ScrollView>
+        {scientificName ? (
+          <Input
+            disabled
+            label="Scientific Name"
+            value={scientificName}
+            style={styles.input}
+          />
+        ) : (
+          <View />
+        )}
+        {bioResourceKey ? (
+          <Input
+            disabled
+            label="GBIF Key"
+            value={bioResourceKey.toString()}
+            style={styles.input}
+          />
+        ) : (
+          <View />
+        )}
+        <Datepicker
+          label="Last Watered"
+          date={lastWatered}
+          placeholder="DD/MM/YYYY"
+          onSelect={(nextDate) => setLastWatered(nextDate)}
           style={styles.input}
         />
-      ) : (
-        <View />
-      )}
-      {bioResourceKey ? (
-        <Input
-          disabled
-          label="GBIF Key"
-          value={bioResourceKey.toString()}
-          style={styles.input}
-        />
-      ) : (
-        <View />
-      )}
-      <Datepicker
-        label="Last Watered"
-        date={lastWatered}
-        placeholder="DD/MM/YYYY"
-        onSelect={(nextDate) => setLastWatered(nextDate)}
-        style={styles.input}
-      />
-      <View style={styles.scheduleWrapper}>
-        <Input
-          label="Schedule"
-          keyboardType="number-pad"
-          placeholder="1"
-          value={frequency.toString()}
-          style={styles.scheduleInput}
-          onChange={(e) => setFrequency(e.nativeEvent.text)}
-        />
-        <RadioGroup
-          selectedIndex={selectedIndex}
-          style={styles.scheduleRadio}
-          onChange={(index) => setSelectedIndex(index)}
-        >
-          {wateringPeriods.map((p) => (
-            <Radio>{p}</Radio>
-          ))}
-        </RadioGroup>
-      </View>
+        <View style={styles.scheduleWrapper}>
+          <Input
+            label="Schedule"
+            keyboardType="number-pad"
+            placeholder="1"
+            value={frequency.toString()}
+            style={styles.scheduleInput}
+            onChange={(e) => setFrequency(e.nativeEvent.text)}
+          />
+          <RadioGroup
+            selectedIndex={selectedIndex}
+            style={styles.scheduleRadio}
+            onChange={(index) => setSelectedIndex(index)}
+          >
+            {wateringPeriods.map((p) => (
+              <Radio>{p}</Radio>
+            ))}
+          </RadioGroup>
+        </View>
 
-      <Button loading={loading} onPress={submitPlant}>
-        Create!
-      </Button>
-      <ErrorToast error={error} />
+        <Button loading={loading} onPress={submitPlant}>
+          Create!
+        </Button>
+        <ErrorToast error={error} />
+      </ScrollView>
     </Background>
   );
 };
