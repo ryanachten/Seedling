@@ -13,6 +13,7 @@ import { useScreenFocus } from "../hooks/useScreenFocus";
 import { PlantParamList } from "../navigation/types";
 import { PlantContext } from "../services/context";
 import { BiodiversityRecord, Plant } from "../constants/Interfaces";
+import { Margin } from "../constants/Sizes";
 
 type Props = StackScreenProps<PlantParamList, "PlantDetailScreen">;
 
@@ -51,8 +52,15 @@ const PlantDetailCard = ({ plant }: { plant: Plant }) => {
 
   return (
     <View>
-      {biodiversityRecord && <MediaGallery media={biodiversityRecord.media} />}
-      <Text>{name}</Text>
+      <Text category="h2" style={styles.title}>
+        {name}
+      </Text>
+      {biodiversityRecord && (
+        <MediaGallery
+          media={biodiversityRecord.media}
+          styles={styles.gallery}
+        />
+      )}
       <BiodiversityInfoCard biodiversityRecord={biodiversityRecord} />
     </View>
   );
@@ -73,14 +81,31 @@ const BiodiversityInfoCard = ({
     authorship,
   } = biodiversityRecord;
 
+  const InfoItem = ({ label, value }: { label: string; value: string }) => (
+    <View style={styles.infoItem}>
+      <Text category="label">{label}</Text>
+      <Text>{value}</Text>
+    </View>
+  );
+
   return (
     <View>
-      <Text>{genus}</Text>
-      <Text>{scientificName}</Text>
-      <Text>{canonicalName}</Text>
-      <Text>{authorship}</Text>
+      <InfoItem label="Genus" value={genus} />
+      <InfoItem label="Scientific Name" value={scientificName} />
+      <InfoItem label="Canonical Name" value={canonicalName} />
+      <InfoItem label="Authorship" value={authorship} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  infoItem: {
+    marginBottom: Margin.sm,
+  },
+  title: {
+    marginBottom: Margin.md,
+  },
+  gallery: {
+    marginBottom: Margin.md,
+  },
+});

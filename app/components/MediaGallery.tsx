@@ -1,15 +1,20 @@
 import { Button } from "@ui-kitten/components";
 import React, { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { BiodiversityRecordMedia } from "../constants/Interfaces";
 import { Icon } from "./Icon";
 
 interface Props {
   media: Array<BiodiversityRecordMedia>;
   defaultImageCount?: number;
+  styles?: StyleProp<ViewStyle>;
 }
 
-export const MediaGallery = ({ defaultImageCount = 5, media }: Props) => {
+export const MediaGallery = ({
+  defaultImageCount = 5,
+  media,
+  styles: customStyles,
+}: Props) => {
   const [errorIndices, setErrorIndices] = useState<Array<number>>([]);
   const [showAllImages, setShowAllImages] = useState(false);
 
@@ -23,7 +28,7 @@ export const MediaGallery = ({ defaultImageCount = 5, media }: Props) => {
   }
 
   return (
-    <View style={styles.imageWrapper}>
+    <View style={[styles.imageWrapper, customStyles]}>
       {mediaToShow.map((m, i) => (
         <Image
           key={i}
