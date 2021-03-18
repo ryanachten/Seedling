@@ -6,6 +6,7 @@ import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { PlantContext } from "../services/context";
 import { useContext } from "react";
+import { useScreenFocus } from "../hooks/useScreenFocus";
 
 export default function PlantScreen() {
   const nav = useNavigation();
@@ -14,14 +15,9 @@ export default function PlantScreen() {
     state: { loading, error, plants },
   } = useContext(PlantContext);
 
-  // Refresh plant feed on init load and subsequent focuses
-  useEffect(() => {
+  useScreenFocus(() => {
     getPlants();
-    const unsubscribe = nav.addListener("focus", () => {
-      getPlants();
-    });
-    return unsubscribe;
-  }, [nav]);
+  });
 
   const goToEditScreen = () => nav.navigate("EditPlantScreen");
   return (
