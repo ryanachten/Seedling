@@ -5,6 +5,7 @@ import { BaseActions, BaseState, baseTypes } from "./base";
 
 export enum plantTypes {
   GET_PLANTS = "GET_PLANTS",
+  GET_PLANT_BY_ID = "GET_PLANT_BY_ID",
   SEARCH_PLANT = "SEARCH_PLANT",
   CREATE_PLANT = "CREATE_PLANT",
 }
@@ -15,6 +16,10 @@ export type PlantState = BaseState & {
 
 export type PlantAction =
   | BaseActions
+  | {
+      type: plantTypes.GET_PLANT_BY_ID;
+      plant: Plant;
+    }
   | {
       type: plantTypes.GET_PLANTS;
       plants: Array<Plant>;
@@ -29,6 +34,7 @@ export type PlantAction =
 
 export type PlantActions = {
   getPlants: () => Promise<void>;
+  getPlantById: (id: number) => Promise<void>;
   searchPlant: (searchTerm: string) => Promise<Array<SearchResult> | undefined>;
   createPlant: (plant: PlantForCreate) => Promise<void>;
 };
@@ -47,6 +53,15 @@ export const plantActions = (
       dispatch({ type: baseTypes.LOADING });
       const { data: plants } = await axios.get<Array<Plant>>(PLANT_URL);
       dispatch({ type: plantTypes.GET_PLANTS, plants });
+    } catch (error) {
+      dispatch({ type: baseTypes.ERROR, error });
+    }
+  },
+  getPlantById: async (id: number) => {
+    try {
+      dispatch({ type: baseTypes.LOADING });
+      const { data: plant } = await axios.get<Plant>(`${PLANT_URL}/${id}`);
+      dispatch({ type: plantTypes.GET_PLANT_BY_ID, plant });
     } catch (error) {
       dispatch({ type: baseTypes.ERROR, error });
     }
@@ -113,6 +128,15 @@ export const plantReducer = (
         error: null,
       };
     }
+    case plantTypes.GET_PLANT_BY_ID: {
+      const plants = [...state.plants].filter((p) => p.id !== action.plant.id);
+      return {
+        ...state,
+        plants: [...plants, action.plant],
+        loading: false,
+        error: null,
+      };
+    }
     case plantTypes.CREATE_PLANT: {
       const plants = [...state.plants, action.plant];
       return {
@@ -122,7 +146,6 @@ export const plantReducer = (
         error: null,
       };
     }
-
     default:
       return state;
   }

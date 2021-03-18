@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { RefreshControl, StyleSheet, ScrollView } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
