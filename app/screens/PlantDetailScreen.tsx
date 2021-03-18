@@ -1,8 +1,14 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useContext } from "react";
-import { ScrollView, View } from "react-native";
+import {
+  Image,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from "@ui-kitten/components";
-import { Background } from "../components";
+import { Background, ErrorToast, MediaGallery } from "../components";
 import { useScreenFocus } from "../hooks/useScreenFocus";
 import { PlantParamList } from "../navigation/types";
 import { PlantContext } from "../services/context";
@@ -25,7 +31,17 @@ export const PlantDetailScreen = ({ route }: Props) => {
   const plant = plants.find((p) => p.id === plantId);
   return (
     <Background>
-      <ScrollView>{plant && <PlantDetailCard plant={plant} />}</ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => getPlantById(plantId)}
+          />
+        }
+      >
+        {plant && <PlantDetailCard plant={plant} />}
+      </ScrollView>
+      <ErrorToast error={error} />
     </Background>
   );
 };
@@ -35,19 +51,21 @@ const PlantDetailCard = ({ plant }: { plant: Plant }) => {
 
   return (
     <View>
+      {biodiversityRecord && <MediaGallery media={biodiversityRecord.media} />}
       <Text>{name}</Text>
-      {biodiversityRecord && (
-        <BiodiversityCard biodiversityRecord={biodiversityRecord} />
-      )}
+      <BiodiversityInfoCard biodiversityRecord={biodiversityRecord} />
     </View>
   );
 };
 
-const BiodiversityCard = ({
+const BiodiversityInfoCard = ({
   biodiversityRecord,
 }: {
-  biodiversityRecord: BiodiversityRecord;
+  biodiversityRecord?: BiodiversityRecord;
 }) => {
+  if (!biodiversityRecord) {
+    return <View />;
+  }
   const {
     genus,
     scientificName,
@@ -64,3 +82,5 @@ const BiodiversityCard = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({});
