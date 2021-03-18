@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace api.Models
 {
     public class Species
@@ -12,5 +14,6 @@ namespace api.Models
         public string CanonicalName { get; set; }
         public string Authorship { get; set; }
         public bool Synonym { get; set; }
+        public List<SpeciesMedia> Media { get; set; }
     }
 }

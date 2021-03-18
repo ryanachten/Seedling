@@ -31,15 +31,24 @@ namespace api.Data
 
         public async Task<Species> GetSpeciesByKey(int key)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"species/{key}");
-            var response = await _client.SendAsync(request);
+            var speciesRequest = new HttpRequestMessage(HttpMethod.Get, $"species/{key}");
+            var mediaRequest = new HttpRequestMessage(HttpMethod.Get, $"species/{key}/media");
 
-            using var responseStream = await response.Content.ReadAsStreamAsync();
-            Console.WriteLine(responseStream);
-            return await JsonSerializer.DeserializeAsync<Species>(responseStream, new JsonSerializerOptions
+            var speciesResponse = await _client.SendAsync(speciesRequest);
+            var mediaResponse = await _client.SendAsync(mediaRequest);
+
+            using var speciesStream = await speciesResponse.Content.ReadAsStreamAsync();
+            using var mediaStream = await mediaResponse.Content.ReadAsStreamAsync();
+
+            var jsonOpts = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
-            });
+            };
+            var species = await JsonSerializer.DeserializeAsync<Species>(speciesStream, jsonOpts);
+            var mediaResults = await JsonSerializer.DeserializeAsync<SearchMediaResult>(mediaStream, jsonOpts);
+            species.Media = mediaResults.Results;
+
+            return species;
         }
     }
 }
