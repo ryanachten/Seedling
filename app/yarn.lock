@@ -1916,6 +1916,14 @@
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
 
+"@types/react-native-calendars@^1.505.1":
+  version "1.505.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-calendars/-/react-native-calendars-1.505.1.tgz#e315bbe81d7fb1bb0b404bdb31e6e68d48f2deab"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+    "@types/xdate" "*"
+
 "@types/react-native-snap-carousel@^3.8.2":
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/@types/react-native-snap-carousel/-/react-native-snap-carousel-3.8.2.tgz#31fb91530198183c658db0d23935ca79850419f5"
@@ -1952,6 +1960,10 @@
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
+
+"@types/xdate@*":
+  version "0.8.31"
+  resolved "https://registry.yarnpkg.com/@types/xdate/-/xdate-0.8.31.tgz#7bec14a47c9bb30715d507f32bc82ab163149574"
 
 "@types/yargs-parser@*":
   version "20.2.0"
@@ -2968,7 +2980,7 @@ data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-date-fns@*:
+date-fns@*, date-fns@^2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.19.0.tgz#65193348635a28d5d916c43ec7ce6fbd145059e1"
 
