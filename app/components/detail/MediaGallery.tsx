@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { BiodiversityRecordMedia } from "../constants/Interfaces";
+import { BiodiversityRecordMedia } from "../../constants/Interfaces";
 
 interface Props {
   media: Array<BiodiversityRecordMedia>;

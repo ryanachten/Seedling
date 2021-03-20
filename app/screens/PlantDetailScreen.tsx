@@ -2,17 +2,18 @@ import { StackScreenProps } from "@react-navigation/stack";
 import React, { useContext } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
-import { Background, ErrorToast, MediaGallery } from "../components";
+import {
+  Background,
+  BiodiversityInfoCard,
+  ErrorToast,
+  MediaGallery,
+  WateringScheduleCard,
+} from "../components";
 import { useScreenFocus } from "../hooks/useScreenFocus";
 import { PlantParamList } from "../navigation/types";
 import { PlantContext } from "../services/context";
-import {
-  BiodiversityRecord,
-  Plant,
-  WateringPeriod,
-} from "../constants/Interfaces";
+import { Plant } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
-import { formatDistance } from "date-fns";
 
 type Props = StackScreenProps<PlantParamList, "PlantDetailScreen">;
 
@@ -46,13 +47,6 @@ export const PlantDetailScreen = ({ route }: Props) => {
   );
 };
 
-const InfoItem = ({ label, value }: { label: string; value: string }) => (
-  <View style={styles.infoItem}>
-    <Text category="label">{label}</Text>
-    <Text>{value}</Text>
-  </View>
-);
-
 const PlantDetailCard = ({ plant }: { plant: Plant }) => {
   const { name, biodiversityRecord } = plant;
 
@@ -75,49 +69,7 @@ const PlantDetailCard = ({ plant }: { plant: Plant }) => {
       <Text category="h5" style={styles.subtitle}>
         Watering Schedule
       </Text>
-      <InfoItem
-        label="Frequency"
-        value={`${plant.wateringFrequency} x ${
-          WateringPeriod[plant.wateringPeriod]
-        }`}
-      />
-      {plant.lastWatered && (
-        <InfoItem
-          label="Last watered"
-          value={`${formatDistance(
-            new Date(plant.lastWatered),
-            new Date(Date.now()),
-            {
-              addSuffix: true,
-            }
-          )}`}
-        />
-      )}
-    </View>
-  );
-};
-
-const BiodiversityInfoCard = ({
-  biodiversityRecord,
-}: {
-  biodiversityRecord?: BiodiversityRecord;
-}) => {
-  if (!biodiversityRecord) {
-    return <View />;
-  }
-  const {
-    genus,
-    scientificName,
-    canonicalName,
-    authorship,
-  } = biodiversityRecord;
-
-  return (
-    <View>
-      <InfoItem label="Genus" value={genus} />
-      <InfoItem label="Scientific Name" value={scientificName} />
-      <InfoItem label="Canonical Name" value={canonicalName} />
-      <InfoItem label="Authorship" value={authorship} />
+      <WateringScheduleCard plant={plant} />
     </View>
   );
 };
