@@ -1,7 +1,7 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useContext } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
-import { Text } from "@ui-kitten/components";
+import { Spinner, Text } from "@ui-kitten/components";
 import {
   Background,
   BiodiversityInfoCard,
@@ -40,7 +40,7 @@ export const PlantDetailScreen = ({ route }: Props) => {
           />
         }
       >
-        {plant && <PlantDetailCard plant={plant} />}
+        {loading ? <Spinner /> : plant && <PlantDetailCard plant={plant} />}
       </ScrollView>
       <ErrorToast error={error} />
     </Background>
