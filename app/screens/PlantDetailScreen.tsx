@@ -61,15 +61,16 @@ const PlantDetailCard = ({ plant }: { plant: Plant }) => {
           styles={styles.gallery}
         />
       )}
-      <Text category="h5" style={styles.subtitle}>
-        Scientific Information
-      </Text>
-      <BiodiversityInfoCard biodiversityRecord={biodiversityRecord} />
 
       <Text category="h5" style={styles.subtitle}>
         Watering Schedule
       </Text>
-      <WateringScheduleCard plant={plant} />
+      <WateringScheduleCard style={styles.watering} plant={plant} />
+
+      <Text category="h5" style={styles.subtitle}>
+        Scientific Information
+      </Text>
+      <BiodiversityInfoCard biodiversityRecord={biodiversityRecord} />
     </View>
   );
 };
@@ -86,6 +87,9 @@ const styles = StyleSheet.create({
     marginTop: Margin.sm,
   },
   gallery: {
+    marginBottom: Margin.md,
+  },
+  watering: {
     marginBottom: Margin.md,
   },
 });

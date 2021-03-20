@@ -8,25 +8,89 @@ import {
   formatDistance,
 } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { Calendar, DotMarking } from "react-native-calendars";
 import { Plant, WateringPeriod } from "../../constants/Interfaces";
+import { Margin } from "../../constants/Sizes";
 import { InfoItem } from "./InfoItem";
 
-interface Props {
+interface WateringScheduleCardProps {
   plant: Plant;
+  style?: StyleProp<ViewStyle>;
 }
 
 type CalendarMarker = { [date: string]: DotMarking };
+
+export const WateringScheduleCard = ({
+  plant,
+  style,
+}: WateringScheduleCardProps) => {
+  const { id, lastWatered, wateringFrequency, wateringPeriod } = plant;
+  const [markedDates, setMarkedDates] = useState<CalendarMarker>({});
+  const [wateringDates, setWateringDates] = useState<Array<Date>>([]);
+  useEffect(() => {
+    const { markers, dates } = getMarkedDates(plant);
+    setMarkedDates(markers);
+    setWateringDates(dates);
+  }, [id]);
+
+  const theme = useTheme();
+  const primaryColor = theme["color-primary-default"];
+  const nextWateringDate = wateringDates.length > 2 && wateringDates[1];
+
+  return (
+    <View style={style}>
+      <View style={styles.infoWrapper}>
+        <InfoItem
+          style={styles.infoItem}
+          label="Frequency"
+          value={`${wateringFrequency} x ${WateringPeriod[wateringPeriod]}`}
+        />
+        {lastWatered && (
+          <InfoItem
+            style={styles.infoItem}
+            label="Last watered"
+            value={`${formatDistance(
+              new Date(lastWatered),
+              new Date(Date.now()),
+              {
+                addSuffix: true,
+              }
+            )}`}
+          />
+        )}
+        {nextWateringDate && (
+          <InfoItem
+            label="Next watering date"
+            value={`${formatDistance(
+              new Date(nextWateringDate),
+              new Date(Date.now()),
+              {
+                addSuffix: true,
+              }
+            )}`}
+          />
+        )}
+      </View>
+      <Calendar
+        markedDates={markedDates}
+        theme={{
+          arrowColor: primaryColor,
+          selectedDayBackgroundColor: primaryColor,
+        }}
+      />
+    </View>
+  );
+};
 
 const getMarkedDates = ({
   lastWatered,
   wateringFrequency,
   wateringPeriod,
-}: Plant): CalendarMarker => {
+}: Plant): { dates: Array<Date>; markers: CalendarMarker } => {
   const dateMarkers: CalendarMarker = {};
   if (!lastWatered || !wateringFrequency || wateringPeriod === undefined) {
-    return dateMarkers;
+    return { markers: dateMarkers, dates: [] };
   }
   const dates = [new Date(lastWatered)];
   let index = 0;
@@ -50,45 +114,16 @@ const getMarkedDates = ({
   }
   const marker = { selected: true };
   dates.map((d) => (dateMarkers[format(d, "yyyy-MM-dd")] = marker));
-  return dateMarkers;
+  return { markers: dateMarkers, dates };
 };
 
-export const WateringScheduleCard = ({ plant }: Props) => {
-  const { id, lastWatered, wateringFrequency, wateringPeriod } = plant;
-  const [markedDates, setMarkedDates] = useState<CalendarMarker>({});
-  useEffect(() => {
-    const markers = getMarkedDates(plant);
-    setMarkedDates(markers);
-  }, [id]);
-
-  const theme = useTheme();
-  const primaryColor = theme["color-primary-default"];
-
-  return (
-    <View>
-      <InfoItem
-        label="Frequency"
-        value={`${wateringFrequency} x ${WateringPeriod[wateringPeriod]}`}
-      />
-      {lastWatered && (
-        <InfoItem
-          label="Last watered"
-          value={`${formatDistance(
-            new Date(lastWatered),
-            new Date(Date.now()),
-            {
-              addSuffix: true,
-            }
-          )}`}
-        />
-      )}
-      <Calendar
-        markedDates={markedDates}
-        theme={{
-          arrowColor: primaryColor,
-          selectedDayBackgroundColor: primaryColor,
-        }}
-      />
-    </View>
-  );
-};
+const styles = StyleSheet.create({
+  infoWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: Margin.sm,
+  },
+  infoItem: {
+    marginRight: Margin.md,
+  },
+});

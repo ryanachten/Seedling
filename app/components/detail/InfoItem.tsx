@@ -1,16 +1,16 @@
 import React from "react";
 import { Text } from "@ui-kitten/components";
-import { StyleSheet, View } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { Margin } from "../../constants/Sizes";
 
-export const InfoItem = ({
-  label,
-  value,
-}: {
+interface InfoItemProps {
   label: string;
   value: string;
-}) => (
-  <View style={styles.infoItem}>
+  style?: StyleProp<ViewStyle>;
+}
+
+export const InfoItem = ({ label, value, style }: InfoItemProps) => (
+  <View style={[styles.infoItem, style]}>
     <Text category="label">{label}</Text>
     <Text>{value}</Text>
   </View>
