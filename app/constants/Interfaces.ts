@@ -1,6 +1,14 @@
 // Corresponds with API enum
 export type WateringPeriodOption = "days" | "weeks" | "months";
 export type WateringPeriodValue = 0 | 1 | 2;
+export const WateringPeriod: Record<
+  WateringPeriodValue,
+  WateringPeriodOption
+> = {
+  0: "days",
+  1: "weeks",
+  2: "months",
+};
 
 export interface BiodiversityRecordMedia {
   type: string; // TODO: probably actually an enum "StillImage"

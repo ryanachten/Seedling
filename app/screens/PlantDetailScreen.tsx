@@ -1,19 +1,18 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useContext } from "react";
-import {
-  Image,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { Background, ErrorToast, MediaGallery } from "../components";
 import { useScreenFocus } from "../hooks/useScreenFocus";
 import { PlantParamList } from "../navigation/types";
 import { PlantContext } from "../services/context";
-import { BiodiversityRecord, Plant } from "../constants/Interfaces";
+import {
+  BiodiversityRecord,
+  Plant,
+  WateringPeriod,
+} from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
+import { formatDistance } from "date-fns";
 
 type Props = StackScreenProps<PlantParamList, "PlantDetailScreen">;
 
@@ -47,6 +46,13 @@ export const PlantDetailScreen = ({ route }: Props) => {
   );
 };
 
+const InfoItem = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.infoItem}>
+    <Text category="label">{label}</Text>
+    <Text>{value}</Text>
+  </View>
+);
+
 const PlantDetailCard = ({ plant }: { plant: Plant }) => {
   const { name, biodiversityRecord } = plant;
 
@@ -61,7 +67,32 @@ const PlantDetailCard = ({ plant }: { plant: Plant }) => {
           styles={styles.gallery}
         />
       )}
+      <Text category="h5" style={styles.subtitle}>
+        Scientific Information
+      </Text>
       <BiodiversityInfoCard biodiversityRecord={biodiversityRecord} />
+
+      <Text category="h5" style={styles.subtitle}>
+        Watering Schedule
+      </Text>
+      <InfoItem
+        label="Frequency"
+        value={`${plant.wateringFrequency} x ${
+          WateringPeriod[plant.wateringPeriod]
+        }`}
+      />
+      {plant.lastWatered && (
+        <InfoItem
+          label="Last watered"
+          value={`${formatDistance(
+            new Date(plant.lastWatered),
+            new Date(Date.now()),
+            {
+              addSuffix: true,
+            }
+          )}`}
+        />
+      )}
     </View>
   );
 };
@@ -81,13 +112,6 @@ const BiodiversityInfoCard = ({
     authorship,
   } = biodiversityRecord;
 
-  const InfoItem = ({ label, value }: { label: string; value: string }) => (
-    <View style={styles.infoItem}>
-      <Text category="label">{label}</Text>
-      <Text>{value}</Text>
-    </View>
-  );
-
   return (
     <View>
       <InfoItem label="Genus" value={genus} />
@@ -104,6 +128,10 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: Margin.md,
+  },
+  subtitle: {
+    marginBottom: Margin.sm,
+    marginTop: Margin.sm,
   },
   gallery: {
     marginBottom: Margin.md,
