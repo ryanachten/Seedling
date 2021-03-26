@@ -10,6 +10,8 @@ import Navigation from "./navigation";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { SEEDLING_EVA_THEME } from "./constants/Theme";
 import { CombinedContext } from "./services/context";
+import { Provider } from "react-redux";
+import { store } from "./reducers";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -26,9 +28,11 @@ export default function App() {
           theme={{ ...eva.light, ...SEEDLING_EVA_THEME }}
         >
           <SafeAreaProvider>
-            <CombinedContext>
-              <Navigation colorScheme={colorScheme} />
-            </CombinedContext>
+            <Provider store={store}>
+              <CombinedContext>
+                <Navigation colorScheme={colorScheme} />
+              </CombinedContext>
+            </Provider>
             <StatusBar />
           </SafeAreaProvider>
         </ApplicationProvider>
