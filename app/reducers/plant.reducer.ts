@@ -27,6 +27,11 @@ export const requestPlantsSuccess = createAction<
   plantTypes.REQUEST_PLANTS_SUCCESS
 >(plantTypes.REQUEST_PLANTS_SUCCESS);
 
+export const requestPlantsFailed = createAction<
+  Error,
+  plantTypes.REQUEST_PLANTS_FAILED
+>(plantTypes.REQUEST_PLANTS_FAILED);
+
 export const plantReducer = createReducer(initialPlantState, (builder) => {
   builder.addCase(requestPlants, (state) => {
     state.loading = true;
@@ -34,6 +39,10 @@ export const plantReducer = createReducer(initialPlantState, (builder) => {
   });
   builder.addCase(requestPlantsSuccess, (state, action) => {
     state.plants = action.payload;
+    state.loading = false;
+  });
+  builder.addCase(requestPlantsFailed, (state, action) => {
+    state.error = action.payload.message;
     state.loading = false;
   });
 });
