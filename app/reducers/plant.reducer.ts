@@ -3,9 +3,9 @@ import { Plant } from "../constants/Interfaces";
 import { BaseState } from "./base";
 
 export enum plantTypes {
-  GET_PLANTS = "GET_PLANTS",
-  SEARCH_PLANT = "SEARCH_PLANT",
-  CREATE_PLANT = "CREATE_PLANT",
+  REQUEST_PLANTS = "REQUEST_PLANTS",
+  REQUEST_PLANTS_SUCCESS = "REQUEST_PLANTS_SUCCESS",
+  REQUEST_PLANTS_FAILED = "REQUEST_PLANTS_FAILED",
 }
 
 export type PlantState = BaseState & {
@@ -18,12 +18,22 @@ export const initialPlantState: PlantState = {
   error: null,
 };
 
-const getPlants = createAction<Array<Plant>, plantTypes.GET_PLANTS>(
-  plantTypes.GET_PLANTS
+export const requestPlants = createAction<undefined, plantTypes.REQUEST_PLANTS>(
+  plantTypes.REQUEST_PLANTS
 );
 
-export const plantReducer = createReducer(initialPlantState, (builder) =>
-  builder.addCase(getPlants, (state, action) => {
+export const requestPlantsSuccess = createAction<
+  Array<Plant>,
+  plantTypes.REQUEST_PLANTS_SUCCESS
+>(plantTypes.REQUEST_PLANTS_SUCCESS);
+
+export const plantReducer = createReducer(initialPlantState, (builder) => {
+  builder.addCase(requestPlants, (state) => {
+    state.loading = true;
+    state.error = null;
+  });
+  builder.addCase(requestPlantsSuccess, (state, action) => {
     state.plants = action.payload;
-  })
-);
+    state.loading = false;
+  });
+});

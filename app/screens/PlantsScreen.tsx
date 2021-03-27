@@ -6,8 +6,8 @@ import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { PlantContext } from "../services/context";
 import { useContext } from "react";
-import { useSelector } from "react-redux";
-import { selectPlants } from "../selectors/plant.selectors";
+import { useDispatch } from "react-redux";
+import { requestPlants } from "../reducers/plant.reducer";
 
 export default function PlantScreen() {
   const nav = useNavigation();
@@ -16,13 +16,13 @@ export default function PlantScreen() {
     state: { loading, error, plants },
   } = useContext(PlantContext);
 
-  const selectedPlants = useSelector(selectPlants);
-  console.log("selectedPlants", selectedPlants);
+  const dispatch = useDispatch();
 
   // Refresh plant feed on init load and subsequent focuses
   useEffect(() => {
     getPlants();
     const unsubscribe = nav.addListener("focus", () => {
+      dispatch(requestPlants());
       getPlants();
     });
     return unsubscribe;
