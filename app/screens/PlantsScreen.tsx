@@ -4,31 +4,33 @@ import { Text } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
 import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { PlantContext } from "../services/context";
-import { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { requestPlants } from "../reducers/plant.reducer";
+import { connect, useDispatch } from "react-redux";
+import { PlantState, requestPlants } from "../reducers/plant.reducer";
+import { RootState } from "../reducers";
+import { selectPlants } from "../selectors/plant.selectors";
 
-export default function PlantScreen() {
+interface Props {
+  plants: PlantState;
+}
+
+function PlantScreen(props: Props) {
+  const { loading, error, plants } = props.plants;
+
   const nav = useNavigation();
-  const {
-    actions: { getPlants },
-    state: { loading, error, plants },
-  } = useContext(PlantContext);
+  const goToEditScreen = () => nav.navigate("EditPlantScreen");
 
   const dispatch = useDispatch();
+  const getPlants = () => dispatch(requestPlants());
 
   // Refresh plant feed on init load and subsequent focuses
   useEffect(() => {
     getPlants();
     const unsubscribe = nav.addListener("focus", () => {
-      dispatch(requestPlants());
       getPlants();
     });
     return unsubscribe;
   }, [nav]);
 
-  const goToEditScreen = () => nav.navigate("EditPlantScreen");
   return (
     <Background style={styles.container}>
       <Button onPress={goToEditScreen}>Create Plant</Button>
@@ -45,6 +47,12 @@ export default function PlantScreen() {
     </Background>
   );
 }
+
+const mapStateToProps = (state: RootState) => ({
+  plants: selectPlants(state),
+});
+
+export default connect(mapStateToProps)(PlantScreen);
 
 const styles = StyleSheet.create({
   backdrop: {
