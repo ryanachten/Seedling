@@ -4,29 +4,29 @@ import { Text } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
 import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { connect, useDispatch } from "react-redux";
-import { PlantState, requestPlants } from "../reducers/plant.reducer";
-import { RootState } from "../reducers";
-import { selectPlants } from "../selectors/plant.selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { requestPlants } from "../reducers/plant.reducer";
+import {
+  getPlants,
+  hasPlantError,
+  isPlantsLoading,
+} from "../selectors/plant.selectors";
 
-interface Props {
-  plants: PlantState;
-}
-
-function PlantScreen(props: Props) {
-  const { loading, error, plants } = props.plants;
-
+function PlantScreen() {
   const nav = useNavigation();
   const goToEditScreen = () => nav.navigate("EditPlantScreen");
 
   const dispatch = useDispatch();
-  const getPlants = () => dispatch(requestPlants());
+  const dispatchPlants = () => dispatch(requestPlants.started(undefined));
+  const plants = useSelector(getPlants);
+  const error = useSelector(hasPlantError);
+  const loading = useSelector(isPlantsLoading);
 
   // Refresh plant feed on init load and subsequent focuses
   useEffect(() => {
-    getPlants();
+    dispatchPlants();
     const unsubscribe = nav.addListener("focus", () => {
-      getPlants();
+      dispatchPlants();
     });
     return unsubscribe;
   }, [nav]);
@@ -36,7 +36,7 @@ function PlantScreen(props: Props) {
       <Button onPress={goToEditScreen}>Create Plant</Button>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={getPlants} />
+          <RefreshControl refreshing={loading} onRefresh={dispatchPlants} />
         }
       >
         {plants.map(({ name }, i) => (
@@ -48,11 +48,7 @@ function PlantScreen(props: Props) {
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  plants: selectPlants(state),
-});
-
-export default connect(mapStateToProps)(PlantScreen);
+export default PlantScreen;
 
 const styles = StyleSheet.create({
   backdrop: {
