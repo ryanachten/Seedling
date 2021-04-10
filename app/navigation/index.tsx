@@ -13,7 +13,9 @@ import AuthenticatedNavigator, {
   SettingsNavigator,
 } from "./AuthenticatedNavigation";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AuthContext, UserContext } from "../services/context";
+import { AuthContext } from "../services/context";
+import { useDispatch } from "react-redux";
+import { restoreUser } from "../reducers/user.reducer";
 
 export default function Navigation({
   colorScheme,
@@ -33,17 +35,15 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const dispatch = useDispatch();
   const {
     actions: { restoreToken },
     state: { token },
   } = useContext(AuthContext);
-  const {
-    actions: { restoreUser },
-  } = useContext(UserContext);
 
   useEffect(() => {
     restoreToken();
-    restoreUser();
+    dispatch(restoreUser.started(undefined));
   }, []);
 
   return (

@@ -55,7 +55,7 @@ export function* fetchPlantSearch({
   }
 }
 
-export function* watchFetchPlants() {
+export function* watchPlants() {
   yield takeLatest(requestPlants.started, fetchPlants);
   yield takeLatest(createPlant.started, addPlant);
   yield takeLatest(searchPlant.started, fetchPlantSearch);

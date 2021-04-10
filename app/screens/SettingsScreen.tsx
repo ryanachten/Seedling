@@ -3,13 +3,12 @@ import { StyleSheet } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
 import { Background } from "../components";
 import { Margin } from "../constants/Sizes";
-import { AuthContext, UserContext } from "../services/context";
-import Constants from "expo-constants";
+import { AuthContext } from "../services/context";
+import { useSelector } from "react-redux";
+import { getUser } from "../selectors/user.selectors";
 
 export default function SettingsScreen() {
-  const {
-    state: { user },
-  } = useContext(UserContext);
+  const { firstName, lastName, email } = useSelector(getUser);
   const {
     actions: { signOut },
   } = useContext(AuthContext);
@@ -17,10 +16,10 @@ export default function SettingsScreen() {
   return (
     <Background>
       <Text category="h5" style={styles.name}>
-        {user.firstName} {user.lastName}
+        {firstName} {lastName}
       </Text>
       <Text category="s1" style={styles.spacing}>
-        {user.email}
+        {email}
       </Text>
       <Button appearance="outline" onPress={signOut} style={styles.spacing}>
         Log out

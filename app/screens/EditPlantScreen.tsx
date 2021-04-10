@@ -8,7 +8,7 @@ import {
   RadioGroup,
   Spinner,
 } from "@ui-kitten/components";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Background, Button, ErrorToast, Icon } from "../components";
@@ -25,17 +25,14 @@ import {
   hasPlantError,
   isPlantsLoading,
 } from "../selectors/plant.selectors";
-import { UserContext } from "../services/context";
+import { getUser } from "../selectors/user.selectors";
 
 export const EditPlantScreen = () => {
   const dispatch = useDispatch();
   const loading = useSelector(isPlantsLoading);
   const error = useSelector(hasPlantError);
   const results = useSelector(getSearchResults);
-
-  const {
-    state: { user },
-  } = useContext(UserContext);
+  const user = useSelector(getUser);
 
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");

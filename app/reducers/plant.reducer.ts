@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
-import actionCreatorFactory, { Action, Failure } from "typescript-fsa";
+import actionCreatorFactory from "typescript-fsa";
 import { Plant, PlantForCreate, SearchResult } from "../constants/Interfaces";
-import { BaseState } from "./base";
+import { BaseState, handleError, handleLoading } from "./base";
 
 const actionCreator = actionCreatorFactory();
 
@@ -36,19 +36,6 @@ export const searchPlant = actionCreator.async<
   { term: string },
   Array<SearchResult>
 >(plantTypes.SEARCH_PLANT);
-
-const handleLoading = (state: PlantState) => {
-  state.loading = true;
-  state.error = null;
-};
-
-const handleError = (
-  state: PlantState,
-  { payload }: Action<Failure<any, {}>>
-) => {
-  state.error = `${payload}`;
-  state.loading = false;
-};
 
 export const plantReducer = createReducer(initialPlantState, (builder) => {
   // Request plants
