@@ -7,13 +7,6 @@ import {
   initialAuthState,
 } from "../reducers/auth";
 import {
-  initialPlantState,
-  plantActions,
-  PlantActions,
-  plantReducer,
-  PlantState,
-} from "../reducers/plant";
-import {
   initialUserState,
   userActions,
   UserActions,
@@ -31,27 +24,18 @@ export const UserContext = createContext<{
   actions: UserActions;
 }>({});
 
-export const PlantContext = createContext<{
-  state: PlantState;
-  actions: PlantActions;
-}>({});
-
 export const CombinedContext = ({ children }: { children: JSX.Element }) => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
   const [auth, authDispatch] = useReducer(authReducer, initialAuthState);
-  const [plant, plantDispatch] = useReducer(plantReducer, initialPlantState);
   const userContext = useMemo(() => userActions(userDispatch), []);
   const authContext = useMemo(
     () => authActions(authDispatch, userDispatch),
     []
   );
-  const plantContext = useMemo(() => plantActions(plantDispatch), []);
   return (
     <AuthContext.Provider value={{ state: auth, actions: authContext }}>
       <UserContext.Provider value={{ state: user, actions: userContext }}>
-        <PlantContext.Provider value={{ state: plant, actions: plantContext }}>
-          {children}
-        </PlantContext.Provider>
+        {children}
       </UserContext.Provider>
     </AuthContext.Provider>
   );
