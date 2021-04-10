@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
-  plantTypes as type,
+  createPlant,
   requestPlants,
   searchPlant,
 } from "../reducers/plant.reducer";
@@ -13,6 +13,24 @@ export function* fetchPlants() {
     yield put(requestPlants.done({ result: plants }));
   } catch (error) {
     yield put(requestPlants.failed(error));
+  }
+}
+
+export function* addPlant({
+  payload: { plant: plantToCreate },
+}: ReturnType<typeof createPlant.started>) {
+  try {
+    const plant: Plant = yield call(Api.createPlant, plantToCreate);
+    yield put(
+      createPlant.done({
+        result: plant,
+        params: {
+          plant: plantToCreate,
+        },
+      })
+    );
+  } catch (error) {
+    yield put(createPlant.failed(error));
   }
 }
 
@@ -39,5 +57,6 @@ export function* fetchPlantSearch({
 
 export function* watchFetchPlants() {
   yield takeLatest(requestPlants.started, fetchPlants);
+  yield takeLatest(createPlant.started, addPlant);
   yield takeLatest(searchPlant.started, fetchPlantSearch);
 }

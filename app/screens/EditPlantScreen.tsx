@@ -10,6 +10,7 @@ import {
 } from "@ui-kitten/components";
 import React, { useContext, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { Background, Button, ErrorToast, Icon } from "../components";
 import {
   PlantForCreate,
@@ -18,13 +19,19 @@ import {
   WateringPeriodValue,
 } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
-import { PlantContext, UserContext } from "../services/context";
+import { createPlant, searchPlant } from "../reducers/plant.reducer";
+import {
+  getSearchResults,
+  hasPlantError,
+  isPlantsLoading,
+} from "../selectors/plant.selectors";
+import { UserContext } from "../services/context";
 
 export const EditPlantScreen = () => {
-  const {
-    state: { error, loading },
-    actions: { createPlant, searchPlant },
-  } = useContext(PlantContext);
+  const dispatch = useDispatch();
+  const loading = useSelector(isPlantsLoading);
+  const error = useSelector(hasPlantError);
+  const results = useSelector(getSearchResults);
 
   const {
     state: { user },
@@ -45,7 +52,7 @@ export const EditPlantScreen = () => {
     if (term.length < 4) {
       return setSearchResults([]);
     }
-    const results = await searchPlant(term);
+    await dispatch(searchPlant.started({ term }));
     setSearchResults(results || []);
   };
 
@@ -63,13 +70,13 @@ export const EditPlantScreen = () => {
     }
     const plantForCreate: PlantForCreate = {
       name,
-      lastWatered,
+      lastWatered: lastWatered.toISOString(),
       userId: user.id,
       biodiversityResourceKey: bioResourceKey,
       wateringFrequency: parseInt(frequency),
       wateringPeriod: selectedIndex as WateringPeriodValue,
     };
-    createPlant(plantForCreate);
+    dispatch(createPlant.started({ plant: plantForCreate }));
   };
 
   return (
@@ -163,7 +170,7 @@ export const EditPlantScreen = () => {
             onChange={(index) => setSelectedIndex(index)}
           >
             {wateringPeriods.map((p) => (
-              <Radio>{p}</Radio>
+              <Radio key={p}>{p}</Radio>
             ))}
           </RadioGroup>
         </View>

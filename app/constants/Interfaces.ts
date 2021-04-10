@@ -16,7 +16,7 @@ export interface PlantForCreate {
   userId: number;
   name: string;
   biodiversityResourceKey: number;
-  lastWatered: Date;
+  lastWatered: string;
   wateringFrequency: number;
   wateringPeriod: WateringPeriodValue;
 }
