@@ -7,7 +7,7 @@ import {
 import * as Api from "../api/index";
 import { Plant, SearchResult } from "../constants/Interfaces";
 
-export function* fetchPlants() {
+function* fetchPlants() {
   try {
     const plants: Array<Plant> = yield call(Api.fetchPlants);
     yield put(requestPlants.done({ result: plants }));
@@ -16,7 +16,7 @@ export function* fetchPlants() {
   }
 }
 
-export function* addPlant({
+function* addPlant({
   payload: { plant: plantToCreate },
 }: ReturnType<typeof createPlant.started>) {
   try {
@@ -34,7 +34,7 @@ export function* addPlant({
   }
 }
 
-export function* fetchPlantSearch({
+function* fetchPlantSearch({
   payload: { term },
 }: ReturnType<typeof searchPlant.started>) {
   try {

@@ -4,14 +4,15 @@ import { restoreUser } from "../reducers/user.reducer";
 import AsyncStorage from "@react-native-community/async-storage";
 import { StorageKeys } from "../constants/StorageKeys";
 
-export function* restoreCachedUser() {
+function* restoreCachedUser() {
   try {
     const userState: string = yield AsyncStorage.getItem(StorageKeys.User);
     if (userState) {
       const user: User = JSON.parse(userState);
       yield put(restoreUser.done({ result: user }));
+    } else {
+      yield put(restoreUser.done({ result: null }));
     }
-    yield put(restoreUser.done({ result: null }));
   } catch (error) {
     yield put(restoreUser.failed(error));
   }
