@@ -4,32 +4,39 @@ import { Text } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
 import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { PlantContext } from "../services/context";
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { requestPlants } from "../reducers/plant.reducer";
+import {
+  getPlants,
+  hasPlantError,
+  isPlantsLoading,
+} from "../selectors/plant.selectors";
 
-export default function PlantScreen() {
+function PlantScreen() {
   const nav = useNavigation();
-  const {
-    actions: { getPlants },
-    state: { loading, error, plants },
-  } = useContext(PlantContext);
+  const goToEditScreen = () => nav.navigate("EditPlantScreen");
+
+  const dispatch = useDispatch();
+  const dispatchPlants = () => dispatch(requestPlants.started(undefined));
+  const plants = useSelector(getPlants);
+  const error = useSelector(hasPlantError);
+  const loading = useSelector(isPlantsLoading);
 
   // Refresh plant feed on init load and subsequent focuses
   useEffect(() => {
-    getPlants();
+    dispatchPlants();
     const unsubscribe = nav.addListener("focus", () => {
-      getPlants();
+      dispatchPlants();
     });
     return unsubscribe;
   }, [nav]);
 
-  const goToEditScreen = () => nav.navigate("EditPlantScreen");
   return (
     <Background style={styles.container}>
       <Button onPress={goToEditScreen}>Create Plant</Button>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={getPlants} />
+          <RefreshControl refreshing={loading} onRefresh={dispatchPlants} />
         }
       >
         {plants.map(({ name }, i) => (
@@ -40,6 +47,8 @@ export default function PlantScreen() {
     </Background>
   );
 }
+
+export default PlantScreen;
 
 const styles = StyleSheet.create({
   backdrop: {

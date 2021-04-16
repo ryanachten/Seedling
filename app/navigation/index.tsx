@@ -4,7 +4,7 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ColorSchemeName } from "react-native";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "./types";
@@ -13,7 +13,10 @@ import AuthenticatedNavigator, {
   SettingsNavigator,
 } from "./AuthenticatedNavigation";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AuthContext, UserContext } from "../services/context";
+import { useDispatch, useSelector } from "react-redux";
+import { restoreUser } from "../reducers/user.reducer";
+import { getToken } from "../selectors/auth.selectors";
+import { restoreToken } from "../reducers/auth.reducer";
 
 export default function Navigation({
   colorScheme,
@@ -33,17 +36,12 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const {
-    actions: { restoreToken },
-    state: { token },
-  } = useContext(AuthContext);
-  const {
-    actions: { restoreUser },
-  } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const token = useSelector(getToken);
 
   useEffect(() => {
-    restoreToken();
-    restoreUser();
+    dispatch(restoreToken.started(undefined));
+    dispatch(restoreUser.started(undefined));
   }, []);
 
   return (

@@ -1,22 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { Input } from "@ui-kitten/components";
-import { AuthContext } from "../services/context";
 import { useNavigation } from "@react-navigation/native";
 import { Background, Button, ErrorToast } from "../components";
 import { Margin } from "../constants/Sizes";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../reducers/auth.reducer";
+import { hasAuthError, isAuthLoading } from "../selectors/auth.selectors";
 
 export default function LoginScreen() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    state: { loading, error },
-    actions: { signIn },
-  } = useContext(AuthContext);
+  const loading = useSelector(isAuthLoading);
+  const error = useSelector(hasAuthError);
   const nav = useNavigation();
 
   const loginUser = () => {
-    signIn(email, password);
+    dispatch(signIn.started({ email, password }));
   };
 
   return (
