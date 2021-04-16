@@ -1,6 +1,6 @@
 import { put, takeLatest } from "redux-saga/effects";
 import { User } from "../constants/Interfaces";
-import { restoreUser } from "../reducers/user.reducer";
+import { loginUser, restoreUser } from "../reducers/user.reducer";
 import AsyncStorage from "@react-native-community/async-storage";
 import { StorageKeys } from "../constants/StorageKeys";
 
@@ -18,6 +18,12 @@ function* restoreCachedUser() {
   }
 }
 
+function* cacheUser({ payload }: ReturnType<typeof loginUser>) {
+  const serlializedUser = JSON.stringify(payload);
+  yield AsyncStorage.setItem(StorageKeys.User, serlializedUser);
+}
+
 export function* watchUser() {
   yield takeLatest(restoreUser.started, restoreCachedUser);
+  yield takeLatest(loginUser, cacheUser);
 }
