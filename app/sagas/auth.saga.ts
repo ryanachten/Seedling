@@ -46,14 +46,10 @@ function* signUpUser({
   payload: userForRegister,
 }: ReturnType<typeof signUp.started>) {
   try {
-    const { user, token }: LoginResponse = yield call(
-      Api.postRegistration,
-      userForRegister
-    );
-    yield put(signIn.done({ params: userForRegister, result: token }));
-    yield put(loginUser(user));
+    yield call(Api.postRegistration, userForRegister);
+    yield put(signUp.done({ params: userForRegister }));
   } catch (error) {
-    yield put(signIn.failed(error));
+    yield put(signUp.failed(error));
   }
 }
 
