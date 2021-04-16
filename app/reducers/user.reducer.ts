@@ -6,6 +6,7 @@ import { BaseState, handleError, handleLoading } from "./base";
 const actionCreator = actionCreatorFactory();
 
 enum userTypes {
+  LOGIN_USER = "LOGIN_USER",
   RESTORE_USER = "RESTORE_USER",
 }
 
@@ -29,6 +30,8 @@ export const restoreUser = actionCreator.async<undefined, User | null>(
   userTypes.RESTORE_USER
 );
 
+export const loginUser = actionCreator<User>(userTypes.LOGIN_USER);
+
 export const userReducer = createReducer(initialUserState, (builder) => {
   // Restore user
   builder.addCase(restoreUser.started, handleLoading);
@@ -39,4 +42,8 @@ export const userReducer = createReducer(initialUserState, (builder) => {
     state.loading = false;
   });
   builder.addCase(restoreUser.failed, handleError);
+  // Login user
+  builder.addCase(loginUser, (state, { payload }) => {
+    state.user = payload;
+  });
 });

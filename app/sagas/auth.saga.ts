@@ -1,7 +1,15 @@
-import { put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import AsyncStorage from "@react-native-community/async-storage";
 import { StorageKeys } from "../constants/StorageKeys";
-import { restoreToken } from "../reducers/auth.reducer";
+import {
+  restoreToken,
+  signIn,
+  signOut,
+  signUp,
+} from "../reducers/auth.reducer";
+import * as Api from "../api/index";
+import { LoginResponse } from "../api/index";
+import { loginUser } from "../reducers/user.reducer";
 import axios from "axios";
 
 function* restoreCachedToken() {
@@ -19,6 +27,48 @@ function* restoreCachedToken() {
   }
 }
 
+function* signInUser({
+  payload: { email, password },
+}: ReturnType<typeof signIn.started>) {
+  try {
+    const params = { email, password };
+    const { user, token }: LoginResponse = yield call(Api.postLogin, params);
+    axios.defaults.headers.common["Authorization"] = `bearer ${token}`;
+    yield AsyncStorage.setItem(StorageKeys.Token, token);
+    yield put(signIn.done({ params, result: token }));
+    yield put(loginUser(user));
+  } catch (error) {
+    yield put(signIn.failed(error));
+  }
+}
+
+function* signUpUser({
+  payload: userForRegister,
+}: ReturnType<typeof signUp.started>) {
+  try {
+    const { user, token }: LoginResponse = yield call(
+      Api.postRegistration,
+      userForRegister
+    );
+    yield put(signIn.done({ params: userForRegister, result: token }));
+    yield put(loginUser(user));
+  } catch (error) {
+    yield put(signIn.failed(error));
+  }
+}
+
+function* signOutUser() {
+  try {
+    yield AsyncStorage.multiRemove([StorageKeys.Token, StorageKeys.User]);
+    yield put(signOut.done({}));
+  } catch (error) {
+    yield put(signOut.failed(error));
+  }
+}
+
 export function* watchAuth() {
   yield takeLatest(restoreToken.started, restoreCachedToken);
+  yield takeLatest(signIn.started, signInUser);
+  yield takeLatest(signOut.started, signOutUser);
+  yield takeLatest(signUp.started, signUpUser);
 }

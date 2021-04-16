@@ -33,3 +33,10 @@ export interface User {
   email: string;
   plants: Array<Plant>;
 }
+
+export type UserForRegister = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
