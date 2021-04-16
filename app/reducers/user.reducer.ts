@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import actionCreatorFactory from "typescript-fsa";
 import { User } from "../constants/Interfaces";
-import { BaseState, handleError, handleLoading } from "./base";
+import { BaseState, handleError, handleLoading } from "./base.reducer";
 
 const actionCreator = actionCreatorFactory();
 
