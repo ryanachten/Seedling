@@ -39,7 +39,7 @@ export interface PlantForCreate {
   userId: number;
   name: string;
   biodiversityResourceKey: number;
-  lastWatered: Date;
+  lastWatered: string;
   wateringFrequency: number;
   wateringPeriod: WateringPeriodValue;
 }
@@ -56,3 +56,10 @@ export interface User {
   email: string;
   plants: Array<Plant>;
 }
+
+export type UserForRegister = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};

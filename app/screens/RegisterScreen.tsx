@@ -1,27 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Input } from "@ui-kitten/components";
-import { AuthContext } from "../services/context";
 import { Background, Button, ErrorToast } from "../components";
 import { Margin } from "../constants/Sizes";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../reducers/auth.reducer";
+import { hasAuthError, isAuthLoading } from "../selectors/auth.selectors";
 
 export default function TabTwoScreen() {
+  const dispatch = useDispatch();
+  const loading = useSelector(isAuthLoading);
+  const error = useSelector(hasAuthError);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    actions: { signUp },
-    state: { error, loading },
-  } = useContext(AuthContext);
 
   const registerUser = () =>
-    signUp({
-      firstName,
-      lastName,
-      password,
-      email,
-    });
+    dispatch(
+      signUp.started({
+        firstName,
+        lastName,
+        password,
+        email,
+      })
+    );
   return (
     <Background>
       <ScrollView>
