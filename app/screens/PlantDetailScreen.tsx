@@ -1,5 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Spinner, Text } from "@ui-kitten/components";
 import {
@@ -11,32 +12,39 @@ import {
 } from "../components";
 import { useScreenFocus } from "../hooks/useScreenFocus";
 import { PlantParamList } from "../navigation/types";
-import { PlantContext } from "../services/context";
 import { Plant } from "../constants/Interfaces";
 import { Margin } from "../constants/Sizes";
+import { requestPlantById } from "../reducers/plant.reducer";
+import {
+  getPlantById,
+  hasPlantError,
+  isPlantsLoading,
+} from "../selectors/plant.selectors";
 
 type Props = StackScreenProps<PlantParamList, "PlantDetailScreen">;
 
 export const PlantDetailScreen = ({ route }: Props) => {
   const plantId = route.params.plantId;
 
-  const {
-    state: { plants, loading, error },
-    actions: { getPlantById },
-  } = useContext(PlantContext);
+  const dispatch = useDispatch();
+  const requestPlant = () =>
+    dispatch(requestPlantById.started({ id: plantId }));
+
+  const plant = useSelector(getPlantById(plantId));
+  const error = useSelector(hasPlantError);
+  const loading = useSelector(isPlantsLoading);
 
   useScreenFocus(() => {
-    getPlantById(plantId);
+    requestPlant();
   });
 
-  const plant = plants.find((p) => p.id === plantId);
   return (
     <Background>
       <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={loading}
-            onRefresh={() => getPlantById(plantId)}
+            onRefresh={() => requestPlant()}
           />
         }
       >

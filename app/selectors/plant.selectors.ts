@@ -16,6 +16,12 @@ export const getPlants = createSelector(
   (state) => state
 );
 
+export const getPlantById = (id: number) =>
+  createSelector(
+    (state: RootState) => state.plants.plants.find((p) => p.id === id),
+    (state) => state
+  );
+
 export const getSearchResults = createSelector(
   (state: RootState) => state.plants.searchResults,
   (state) => state

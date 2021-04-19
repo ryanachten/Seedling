@@ -11,6 +11,15 @@ export const fetchPlants = async (): Promise<Array<Plant>> => {
   }
 };
 
+export const fetchPlantById = async (id: number): Promise<Plant> => {
+  try {
+    const { data: plant } = await axios.get<Plant>(`${PLANT_URL}/${id}`);
+    return plant;
+  } catch (error) {
+    throw `${error}`;
+  }
+};
+
 export const createPlant = async (
   plantToCreate: PlantForCreate
 ): Promise<Plant> => {

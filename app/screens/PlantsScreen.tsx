@@ -24,7 +24,7 @@ function PlantScreen() {
   const loading = useSelector(isPlantsLoading);
 
   useScreenFocus(() => {
-    dispatchPlants();
+    dispatch(requestPlants.started(undefined));
   });
 
   const goToDetailScreen = (plant: Plant) =>

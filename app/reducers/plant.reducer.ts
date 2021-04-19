@@ -7,6 +7,7 @@ const actionCreator = actionCreatorFactory();
 
 enum plantTypes {
   GET_PLANTS = "GET_PLANTS",
+  GET_PLANT_BY_ID = "GET_PLANT_BY_ID",
   SEARCH_PLANT = "SEARCH_PLANT",
   CREATE_PLANT = "CREATE_PLANT",
 }
@@ -27,6 +28,10 @@ export const requestPlants = actionCreator.async<undefined, Array<Plant>>(
   plantTypes.GET_PLANTS
 );
 
+export const requestPlantById = actionCreator.async<{ id: number }, Plant>(
+  plantTypes.GET_PLANT_BY_ID
+);
+
 export const createPlant = actionCreator.async<
   { plant: PlantForCreate },
   Plant
@@ -44,7 +49,14 @@ export const plantReducer = createReducer(initialPlantState, (builder) => {
     state.plants = payload.result;
     state.loading = false;
   });
-  builder.addCase(requestPlants.failed, handleError);
+  // Request plant by ID
+  builder.addCase(requestPlantById.started, handleLoading);
+  builder.addCase(requestPlantById.done, (state, { payload: { result } }) => {
+    const plants = [...state.plants].filter((p) => p.id !== result.id);
+    state.plants = [...plants, result];
+    state.loading = false;
+  });
+  builder.addCase(requestPlantById.failed, handleError);
   // Create plant
   builder.addCase(createPlant.started, handleLoading);
   builder.addCase(createPlant.done, (state, { payload }) => {
