@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { RefreshControl, StyleSheet, ScrollView } from "react-native";
-import { Text } from "@ui-kitten/components";
+import { List, ListItem } from "@ui-kitten/components";
 import { Background, Button, ErrorToast } from "../components";
-import { ModalBackground } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { useScreenFocus } from "../hooks/useScreenFocus";
+import { Plant } from "../constants/Interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPlants } from "../reducers/plant.reducer";
 import {
@@ -22,26 +23,33 @@ function PlantScreen() {
   const error = useSelector(hasPlantError);
   const loading = useSelector(isPlantsLoading);
 
-  // Refresh plant feed on init load and subsequent focuses
-  useEffect(() => {
+  useScreenFocus(() => {
     dispatchPlants();
-    const unsubscribe = nav.addListener("focus", () => {
-      dispatchPlants();
+  });
+
+  const goToDetailScreen = (plant: Plant) =>
+    nav.navigate("PlantDetailScreen", {
+      plantId: plant.id,
     });
-    return unsubscribe;
-  }, [nav]);
 
   return (
-    <Background style={styles.container}>
+    <Background>
       <Button onPress={goToEditScreen}>Create Plant</Button>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={dispatchPlants} />
         }
       >
-        {plants.map(({ name }, i) => (
-          <Text key={i}>{name}</Text>
-        ))}
+        <List
+          data={plants}
+          renderItem={({ item, index }) => (
+            <ListItem
+              key={index}
+              title={item.name}
+              onPress={() => goToDetailScreen(item)}
+            />
+          )}
+        />
       </ScrollView>
       <ErrorToast error={error} />
     </Background>
@@ -50,13 +58,4 @@ function PlantScreen() {
 
 export default PlantScreen;
 
-const styles = StyleSheet.create({
-  backdrop: {
-    backgroundColor: ModalBackground,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});

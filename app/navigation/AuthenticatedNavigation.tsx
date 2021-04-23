@@ -18,6 +18,7 @@ import { BackButton, SettingsButton } from "../components";
 import { EditPlantScreen } from "../screens/EditPlantScreen";
 
 import HomeScreen from "../screens/HomeScreen";
+import { PlantDetailScreen } from "../screens/PlantDetailScreen";
 import PlantsScreen from "../screens/PlantsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import {
@@ -87,6 +88,11 @@ function PlantNavigator() {
         name="PlantsScreen"
         component={PlantsScreen}
         options={{ headerTitle: "Plants" }}
+      />
+      <PlantStack.Screen
+        name="PlantDetailScreen"
+        component={PlantDetailScreen}
+        options={{ headerTitle: "Plant" }}
       />
       <PlantStack.Screen
         name="EditPlantScreen"
