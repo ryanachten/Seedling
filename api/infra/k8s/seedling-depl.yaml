@@ -15,3 +15,18 @@ spec:
       containers:
         - name: seedling
           image: ryanachten/seedling
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: TOKENKEY
+              valueFrom:
+                secretKeyRef: seedling-secrets
+                key: tokenKey
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef: seedling-secrets
+                key: dbUrl

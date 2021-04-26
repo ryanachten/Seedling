@@ -16,18 +16,18 @@ namespace Seedling
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    if (env == "Development")
-                    {
-                        webBuilder.UseStartup<Startup>();
-                    }
-                    else
-                    {
-                        // In production, we want to use Heroku's PORT exposed via env variable
-                        // and let Heroku handle HTTPS redirection (hence only use .NET HTTP in PROD)
-                        var port = Environment.GetEnvironmentVariable("PORT");
-                        webBuilder.UseStartup<Startup>().UseUrls("http://*:" + port);
-                    }
-
+                    webBuilder.UseStartup<Startup>();
+                    // if (env == "Development")
+                    // {
+                    //     webBuilder.UseStartup<Startup>();
+                    // }
+                    // else
+                    // {
+                    //     // In production, we want to use Heroku's PORT exposed via env variable
+                    //     // and let Heroku handle HTTPS redirection (hence only use .NET HTTP in PROD)
+                    //     var port = Environment.GetEnvironmentVariable("PORT");
+                    //     webBuilder.UseStartup<Startup>().UseUrls("http://*:" + port);
+                    // }
                 });
     }
 }

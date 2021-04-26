@@ -7,3 +7,4 @@ start.sh
 *.db*
 migration.sql
 startup.sh
+seedling-secret.yaml
