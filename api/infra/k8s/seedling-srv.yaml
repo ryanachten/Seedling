@@ -1,7 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: seedling-srv
+  name: seedling-clusterip-srv
+spec:
+  selector:
+    app: seedling
+  ports:
+    - name: seedling
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seedling-nodeport-srv
 spec:
   type: NodePort
   selector:
