@@ -30,10 +30,11 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlants()
         {
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var plants = await _unitOfWork.PlantRepo.GetPlants(Int32.Parse(userId));
-            var plantsToReturn = _mapper.Map<List<PlantForList>>(plants);
-            return Ok(plantsToReturn);
+            // string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // var plants = await _unitOfWork.PlantRepo.GetPlants(Int32.Parse(userId));
+            // var plantsToReturn = _mapper.Map<List<PlantForList>>(plants);
+            // return Ok(plantsToReturn);
+            return Ok("hello");
         }
 
         [HttpGet("{id}")]
