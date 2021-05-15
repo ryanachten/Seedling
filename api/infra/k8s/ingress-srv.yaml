@@ -9,7 +9,6 @@ spec:
     - host: seedling.com
       http:
         paths:
-          - path: /api
-            backend:
+          - backend:
               serviceName: seedling-clusterip-srv
               servicePort: 80
