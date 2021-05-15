@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta16
+kind: Config
+metadata:
+  name: api
+build:
+  local:
+      push: false
+  artifacts:
+  - image: ryanachten/seedling
+    docker:
+      dockerfile: DockerFile
+deploy:
+  kubectl:
+    manifests:
+    - infra/k8s/*
