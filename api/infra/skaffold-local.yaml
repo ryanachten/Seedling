@@ -5,10 +5,8 @@ metadata:
 build:
   local:
       push: false
-  googleCloudBuild:
-    projectId: seedling-313900
   artifacts:
-  - image: us.gcr.io/seedling-313900
+  - image: ryanachten/seedling
     docker:
       dockerfile: DockerFile
 deploy:
